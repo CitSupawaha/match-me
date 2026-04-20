@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Court - Pro Scoreboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Lexend:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffefec",
+                    "on-secondary-fixed-variant": "#4e6300",
+                    "primary-dim": "#005c34",
+                    "outline-variant": "#abadae",
+                    "surface-container-low": "#eff1f2",
+                    "surface-tint": "#006a3c",
+                    "on-background": "#2c2f30",
+                    "outline": "#757778",
+                    "inverse-primary": "#9af3b8",
+                    "surface-container": "#e6e8ea",
+                    "secondary-container": "#c3f400",
+                    "surface": "#f5f6f7",
+                    "secondary": "#4e6300",
+                    "on-secondary-fixed": "#354500",
+                    "error-container": "#f95630",
+                    "secondary-fixed": "#c3f400",
+                    "on-error-container": "#520c00",
+                    "inverse-surface": "#0c0f10",
+                    "primary-fixed": "#9af3b8",
+                    "primary-container": "#9af3b8",
+                    "secondary-fixed-dim": "#b7e500",
+                    "tertiary-container": "#f9f9fc",
+                    "inverse-on-surface": "#9b9d9e",
+                    "surface-bright": "#f5f6f7",
+                    "error-dim": "#b92902",
+                    "background": "#f5f6f7",
+                    "on-tertiary": "#f2f2f5",
+                    "on-secondary": "#e1ff88",
+                    "primary-fixed-dim": "#8ce4ab",
+                    "on-tertiary-fixed": "#4b4d4f",
+                    "surface-variant": "#dadddf",
+                    "surface-container-high": "#e0e3e4",
+                    "on-primary-fixed-variant": "#00683b",
+                    "error": "#b02500",
+                    "tertiary": "#5a5c5e",
+                    "on-primary-container": "#005d34",
+                    "surface-container-highest": "#dadddf",
+                    "surface-dim": "#d1d5d7",
+                    "on-surface-variant": "#595c5d",
+                    "on-primary-fixed": "#004827",
+                    "secondary-dim": "#435600",
+                    "on-tertiary-fixed-variant": "#686a6c",
+                    "on-secondary-container": "#455900",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#cbffd8",
+                    "tertiary-dim": "#4e5052",
+                    "tertiary-fixed": "#f9f9fc",
+                    "primary": "#006a3c",
+                    "on-tertiary-container": "#5e5f61",
+                    "on-surface": "#2c2f30",
+                    "tertiary-fixed-dim": "#ebebed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "body": ["Inter"],
+                    "label": ["Lexend"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+        .score-display {
+            font-size: clamp(6rem, 20vw, 8rem);
+            line-height: 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0d0d0f] text-[#f9f5f8] font-body antialiased flex flex-col selection:bg-[#CCFF00] selection:text-[#131315]">
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#131315]/80 backdrop-blur-xl shadow-[0px_0px_40px_rgba(204,255,0,0.08)] border-b border-[#2c2c2f]/50">
+<div class="flex items-center gap-2">
+<img alt="Profile" class="w-8 h-8 rounded-full border border-[#CCFF00]/50 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBWKXD3UI2UujIJUGB8e64fW44GAUHNDCODstkX4Se5eCldhQos06_PQGZdba21iDlvTFearBD3b4bgo-HSVtrPgDykMqOiEoXlgRd2dGK3fQ05qJ7bEsLI7kMLPBjns7NacgSwhNbhu2dcS9q6nUYFFIzO7tCJbH6NtSL7RhtOIHp_Stw6zMbIP2CUWg30ddoyfepb9eDGPoufZVsbMu60QfnrD9EqU7wulORaXiBn1yJraqatxZulUTE17FM49an1YNENkEXWlk"/>
+<h1 class="font-['Lexend'] tracking-tighter text-xl font-bold text-[#CCFF00]">PRECISION COURT</h1>
+</div>
+<button class="hover:bg-[#2c2c2f] p-2 rounded-full text-[#CCFF00] transition-colors scale-95 active:duration-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="flex-1 pt-20 pb-28 flex flex-col w-full max-w-md mx-auto">
+<div class="px-4 mt-2">
+<div class="flex items-center justify-between bg-[#131315] py-2 px-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.2)] border border-[#2c2c2f]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#CCFF00] scale-75">schedule</span>
+<span class="font-body text-base font-bold tabular-nums tracking-tight text-[#f9f5f8]">00:34:12</span>
+</div>
+<div class="h-4 w-[1px] bg-[#2c2c2f]"></div>
+<div class="flex items-center gap-1.5">
+<span class="font-label text-[10px] font-bold text-[#adaaad] uppercase tracking-wider">Set</span>
+<span class="bg-[#cafd00] text-[#516700] px-2 py-0.5 rounded-lg font-label text-xs font-black">2</span>
+</div>
+</div>
+</div>
+<div class="flex-1 flex px-4 gap-4 mt-4 mb-4">
+<div class="flex-1 flex flex-col gap-4">
+<div class="flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-20 h-20 rounded-full overflow-hidden border-4 border-[#CCFF00] shadow-[0px_0px_15px_rgba(204,255,0,0.3)]">
+<img alt="Player Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdwNfe5Pk8CTNj2Xxte8vR1A8ZcFt4T7Z_z-g8O1ietGRm3EkNtfAERnKTG3F73BK_Q9u6MqjQ9ihWZVaJsVcztR7LG5I6f3brRIgdZqJXmEV2yQgpfZFrgNnzB3e1CvdUCbJniLOdzzi4dpb0yFB3I_iQ84OaM7e3BA6hkiGnub5ndu0IgE0XQzPlfdgoRG9k-D4JAq1l11NgH0aeEfoTeBS5zFwRgHjs1JPw_9M7Ne00wSZUTmJDPrtalRY8hKTfKPeD2DXBr9A"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-[#131315] flex items-center justify-center bg-[#CCFF00]">
+<div class="w-2.5 h-2.5 bg-[#ffffff] rounded-full shadow-[0_0_10px_#ffffff]"></div>
+</div>
+</div>
+<span class="font-body text-sm font-bold text-[#f9f5f8] truncate w-full text-center">Chen Long</span>
+</div>
+<div class="flex-1 flex bg-[#131315] rounded-[2rem] border-2 border-[#CCFF00] shadow-[0px_0px_30px_rgba(204,255,0,0.15)] items-center justify-center">
+<span class="score-display font-headline font-black text-[#CCFF00] tracking-tighter drop-shadow-[0_0_15px_rgba(204,255,0,0.5)]">21</span>
+</div>
+<div class="flex flex-col gap-2">
+<button class="h-24 rounded-3xl bg-[#CCFF00] text-[#131315] shadow-[0_4px_20px_rgba(204,255,0,0.25)] flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-5xl font-bold">add</span>
+</button>
+<button class="h-12 rounded-2xl bg-[#2c2c2f] text-[#f9f5f8] flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl">remove</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-4">
+<div class="flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-20 h-20 rounded-full overflow-hidden border-4 border-[#2c2c2f] shadow-lg">
+<img alt="Player Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhEXSjQnVyGkJInzoELhUpojzyLi_F5g8dh8ZGBkTJDyA6mRaMnj3qnMnpWv-Fs6gTSSAYgtVoWXl5QBl0BR3GoYNSt783OUthVmTX31jXIrTfjaRp9NENqeFHbe1fB61I4XPup8F0IPUlKHUReCi08blwqunE4KTihGUF4AM7-EOWLu2fNHNNnt3f-Z9Ocpi822MhHf_mviSoFJtdLqry0oxDhSgV0ij4zFSHSdstoFRwcsfU-nn4zFI85PZmWFcXTNDNj_W6pXE"/>
+</div>
+<div class="absolute -bottom-1 -left-1 bg-[#2c2c2f] w-6 h-6 rounded-full border-2 border-[#131315]"></div>
+</div>
+<span class="font-body text-sm font-bold text-[#f9f5f8] truncate w-full text-center">T. Ying</span>
+</div>
+<div class="flex-1 flex bg-[#1a1a1c] rounded-[2rem] border-2 border-[#2c2c2f] shadow-lg items-center justify-center">
+<span class="score-display font-headline font-black text-[#f9f5f8] tracking-tighter">18</span>
+</div>
+<div class="flex flex-col gap-2">
+<button class="h-24 rounded-3xl bg-[#1a1a1c] border-2 border-[#2c2c2f] text-[#f9f5f8] flex items-center justify-center active:scale-95 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-5xl font-bold">add</span>
+</button>
+<button class="h-12 rounded-2xl bg-[#2c2c2f] text-[#f9f5f8] flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl">remove</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-4 space-y-3 mt-auto">
+<div class="flex gap-3">
+<button class="flex-[3] h-14 rounded-2xl bg-[#2c2c2f] text-[#f9f5f8] flex items-center justify-center gap-2 font-label font-bold active:scale-95 transition-transform shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
+<span class="material-symbols-outlined text-xl">undo</span>
+<span>UNDO</span>
+</button>
+<button class="flex-1 h-14 rounded-2xl bg-transparent border border-[#2c2c2f] flex flex-col items-center justify-center text-[#adaaad] active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl">volume_up</span>
+<span class="text-[9px] font-black uppercase tracking-tighter leading-none">Voice</span>
+</button>
+</div>
+<button class="w-full py-4 rounded-2xl bg-[#3f1111] text-[#ff6b6b] font-headline font-bold text-base flex items-center justify-center gap-2 border border-[#ff6b6b]/20 active:scale-[0.98] transition-transform shadow-sm mb-4">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">stop_circle</span>
+                Finish Match
+            </button>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#131315]/80 backdrop-blur-xl rounded-t-2xl z-50 border-t border-[#2c2c2f]/50 shadow-[0px_-4px_40px_rgba(204,255,0,0.05)]">
+<div class="flex flex-col items-center justify-center text-[#adaaad] px-4 py-1.5 hover:text-[#f9f5f8] transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-0.5">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#cafd00] text-[#516700] rounded-lg px-4 py-1.5 transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_tennis</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest font-bold mt-0.5">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaad] px-4 py-1.5 hover:text-[#f9f5f8] transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-0.5">Host</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaad] px-4 py-1.5 hover:text-[#f9f5f8] transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-0.5">Profile</span>
+</div>
+</nav>
+</body></html>

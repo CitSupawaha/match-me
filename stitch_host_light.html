@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Host Match - Kinetic Court</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; }
+        .font-headline { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#4e6300",
+                      "on-surface-variant": "#595c5d",
+                      "on-surface": "#2c2f30",
+                      "on-secondary-container": "#455900",
+                      "surface-container-highest": "#dadddf",
+                      "on-tertiary": "#f2f2f5",
+                      "error": "#b02500",
+                      "tertiary-container": "#f9f9fc",
+                      "secondary-fixed": "#CCFF00",
+                      "on-primary-fixed-variant": "#00683b",
+                      "on-tertiary-fixed-variant": "#686a6c",
+                      "primary-dim": "#005c34",
+                      "on-primary-container": "#005d34",
+                      "on-error-container": "#520c00",
+                      "surface-variant": "#dadddf",
+                      "on-primary": "#cbffd8",
+                      "secondary-container": "#CCFF00",
+                      "on-secondary-fixed-variant": "#4e6300",
+                      "surface-container-low": "#eff1f2",
+                      "outline-variant": "#abadae",
+                      "on-secondary": "#1a1c1e",
+                      "surface-bright": "#f5f6f7",
+                      "primary-fixed-dim": "#8ce4ab",
+                      "secondary-fixed-dim": "#b7e500",
+                      "on-secondary-fixed": "#1a1c1e",
+                      "surface-container": "#e6e8ea",
+                      "error-container": "#f95630",
+                      "inverse-on-surface": "#9b9d9e",
+                      "on-background": "#2c2f30",
+                      "background": "#f5f6f7",
+                      "surface": "#f5f6f7",
+                      "tertiary-dim": "#4e5052",
+                      "tertiary-fixed-dim": "#ebebed",
+                      "surface-container-high": "#e0e3e4",
+                      "secondary-dim": "#435600",
+                      "outline": "#757778",
+                      "surface-dim": "#d1d5d7",
+                      "primary": "#006a3c",
+                      "error-dim": "#b92902",
+                      "primary-container": "#9af3b8",
+                      "on-error": "#ffefec",
+                      "tertiary-fixed": "#f9f9fc",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#4b4d4f",
+                      "inverse-primary": "#9af3b8",
+                      "primary-fixed": "#9af3b8",
+                      "inverse-surface": "#0c0f10",
+                      "surface-tint": "#006a3c",
+                      "on-primary-fixed": "#004827",
+                      "on-tertiary-container": "#5e5f61",
+                      "tertiary": "#5a5c5e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "8px",
+                      "lg": "12px",
+                      "xl": "16px",
+                      "full": "9999px"
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-white/80 backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface p-2 hover:bg-zinc-100 rounded-full transition-colors active:scale-95" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-headline font-bold tracking-tight text-[1.25rem] text-on-surface">Host Match</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border-2 border-primary/10">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClFREmWiIV9EJ-ujTQp0VTPZ0Ih_BmitCEyu9ep_w-rYQmdlHpJva_D1N52fD7dpE9j6Ymiq8k03TxouXI9cxrOqgZRD00xJ-b5bAGPcP4qh6okZCr-KI94PnKRkgcMilT-8cZpcN-nNlFMNHmqYJAsw6KdMknrTOzBn0sFsobPpd1vcCMyIiJBBjGdmEBh2OQMwQlumNzDc026d_s3zd1ecsJ5uKxE_uHSnj_7VsVKhek-w6jK3SuVhx-XJKKhmu_fjw-rkBcnjY"/>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-2xl mx-auto space-y-10">
+<!-- Section 1: Basic Info -->
+<section class="space-y-6">
+<div class="flex items-baseline justify-between">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-primary">Basic Info</h2>
+</div>
+<div class="space-y-4">
+<div class="relative group">
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-1 ml-1">Match Name</label>
+<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 text-on-surface focus:ring-0 placeholder:text-outline/50 transition-all border-b-2 border-transparent focus:border-primary" placeholder="Evening Smash Sessions" type="text"/>
+</div>
+<!-- Layout Change: Date & Time and Duration on separate lines -->
+<div class="space-y-4">
+<div class="relative">
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-1 ml-1">Date &amp; Time</label>
+<div class="flex items-center bg-surface-container-high rounded-xl px-4 py-4 cursor-pointer hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-primary mr-3" data-icon="calendar_today">calendar_today</span>
+<span class="text-sm font-medium">Oct 24, 18:00</span>
+</div>
+</div>
+<div class="relative">
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-1 ml-1">Duration</label>
+<div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="px-6 py-3 rounded-full bg-primary text-on-primary text-xs font-bold transition-transform active:scale-95">1hr</button>
+<button class="px-6 py-3 rounded-full bg-white border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-low">2hr</button>
+<button class="px-6 py-3 rounded-full bg-white border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-low">3hr</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Location Map -->
+<section class="space-y-4">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-primary">Location Map</h2>
+<div class="relative h-64 w-full rounded-[2rem] overflow-hidden shadow-2xl group">
+<img class="w-full h-full object-cover" data-alt="minimalist map view" data-location="Bangkok" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT0ODTXuPR6k2udBMkTIGlOGJM3kBYjka6O89y5qOEeu3v9HpYCOR8t-_79ctZcjlRqgJZusOOfRvvBX5DYTe7efCW0hS3fyKRXVTj3myJ0F6wsQC57rlbg7ZyVVsbHV3DQSZQrV_uxW1hBgHH63wlr-VKZkqOBOtWW1SVx5pPHjxV3FcBTTt9R1rAh-mk9SgOD3ohXsj9ZnDgGFn4Bb6pw_RXL3H2lMtidaTrywyL1NnhjBpsTJ7WsvqYh7QBZ_bmqueRUJfxd74"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 right-4 flex items-center gap-2">
+<div class="flex-1 flex items-center justify-between bg-white rounded-full px-4 py-2.5 shadow-lg border border-zinc-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#006a3c] text-xl" style="font-variation-settings: 'FILL' 0, 'wght' 400;">stadium</span>
+<span class="text-[14px] font-normal text-zinc-500 font-['IBM_Plex_Sans_Thai']">เลือกสนามแบดมินตัน...</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600 text-lg">expand_more</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="text-xs font-bold opacity-80 uppercase tracking-widest mb-1">Current Selection</p>
+<h3 class="font-headline text-lg font-bold">Kinetic Central Arena</h3>
+<p class="text-xs opacity-90">Building 4, Sport Complex St.</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Player Specs -->
+<section class="space-y-6">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-primary">Player Specs</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-3 ml-1">Skill Level</label>
+<div class="flex flex-wrap gap-2">
+<!-- Skill Level button states updated -->
+<button class="px-6 py-3 rounded-full bg-white border border-outline-variant/30 text-on-surface text-xs font-bold">Beginner</button>
+<button class="px-6 py-3 rounded-full bg-secondary-container text-on-secondary-fixed text-xs font-bold shadow-lg shadow-secondary/10">Intermediate</button>
+<button class="px-6 py-3 rounded-full bg-white border border-outline-variant/30 text-on-surface text-xs font-bold">Advanced</button>
+</div>
+</div>
+<div class="bg-surface-container rounded-[1.5rem] p-6 flex items-center justify-between">
+<div>
+<h4 class="font-headline font-bold text-on-surface">Available Slots</h4>
+<p class="text-xs text-outline">Excluding yourself</p>
+</div>
+<div class="flex items-center gap-6">
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="remove">remove</span>
+</button>
+<span class="font-headline text-2xl font-black text-primary">3</span>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary active:scale-90 transition-transform shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Key Details -->
+<section class="space-y-8">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-primary">Key Details</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-3 ml-1">Shuttlecock Type</label>
+<div class="flex gap-2">
+<button class="px-5 py-3 rounded-xl bg-white border border-outline-variant/30 text-xs font-bold">RSL Silver</button>
+<button class="px-5 py-3 rounded-xl bg-primary/10 text-primary text-xs font-black border-2 border-primary transition-all">RSL Tourney</button>
+<button class="px-5 py-3 rounded-xl bg-white border border-outline-variant/30 text-xs font-bold">Yonex</button>
+</div>
+</div>
+<div class="grid gap-6 items-end">
+<div class="relative">
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-1 ml-1">Est. Cost</label>
+<div class="flex items-center bg-surface-container-high rounded-xl px-4 py-4">
+<!-- Currency updated to ฿ -->
+<span class="text-primary font-bold mr-1">฿</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 text-lg font-black text-on-surface flex-1" type="text" value="450"/>
+<span class="text-[10px] font-bold uppercase text-outline ml-auto">/ person</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-tighter text-outline mb-3 ml-1">Amenities</label>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 rounded-lg bg-surface-container-low text-[11px] font-medium text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="ac_unit">ac_unit</span> Air-con
+                        </span>
+<span class="px-4 py-2 rounded-lg bg-primary text-[11px] font-bold text-on-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="mode_fan">mode_fan</span> Fan
+                        </span>
+<span class="px-4 py-2 rounded-lg bg-surface-container-low text-[11px] font-medium text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="layers">layers</span> Rubber Floor
+                        </span>
+<span class="px-4 py-2 rounded-lg bg-surface-container-low text-[11px] font-medium text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="deck">deck</span> Wood Floor
+                        </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Host's Note -->
+<section class="space-y-4">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight text-primary">Host's Note</h2>
+<div class="relative">
+<textarea class="w-full bg-surface-container-high border-none rounded-2xl px-5 py-4 text-on-surface focus:ring-0 placeholder:text-outline/40 text-sm font-medium resize-none" placeholder="Mention any specific rules or pre-game meet points..." rows="4"></textarea>
+</div>
+</section>
+</main>
+<!-- Sticky Footer CTA -->
+<footer class="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-surface via-surface to-transparent pt-12 pointer-events-none">
+<div class="max-w-2xl mx-auto pointer-events-auto">
+<button class="w-full bg-secondary-fixed hover:bg-secondary-fixed-dim text-on-secondary-fixed font-headline font-black text-lg py-5 rounded-[1.5rem] shadow-2xl shadow-secondary/30 flex items-center justify-center gap-3 active:scale-95 transition-all group">
+<span class="material-symbols-outlined" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                Create Match
+                <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

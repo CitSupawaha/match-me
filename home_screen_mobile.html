@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Match Me - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Lexend:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                    "inverse-primary": "#9af3b8",
+                    "secondary-fixed": "#c3f400",
+                    "on-primary-fixed-variant": "#00683b",
+                    "on-secondary-fixed": "#354500",
+                    "tertiary": "#5a5c5e",
+                    "surface-container-high": "#e0e3e4",
+                    "tertiary-dim": "#4e5052",
+                    "primary-container": "#9af3b8",
+                    "on-tertiary-fixed": "#4b4d4f",
+                    "primary-fixed": "#9af3b8",
+                    "error-container": "#f95630",
+                    "secondary": "#4e6300",
+                    "primary-dim": "#005c34",
+                    "secondary-container": "#c3f400",
+                    "surface-tint": "#006a3c",
+                    "on-error": "#ffefec",
+                    "error-dim": "#b92902",
+                    "background": "#f5f6f7",
+                    "surface-bright": "#f5f6f7",
+                    "on-tertiary": "#f2f2f5",
+                    "on-error-container": "#520c00",
+                    "on-tertiary-container": "#5e5f61",
+                    "on-secondary": "#e1ff88",
+                    "on-primary-container": "#005d34",
+                    "surface-variant": "#dadddf",
+                    "on-tertiary-fixed-variant": "#686a6c",
+                    "outline": "#757778",
+                    "primary": "#006a3c",
+                    "secondary-fixed-dim": "#b7e500",
+                    "surface-container-low": "#eff1f2",
+                    "on-primary": "#cbffd8",
+                    "surface-container-highest": "#dadddf",
+                    "on-surface-variant": "#595c5d",
+                    "inverse-surface": "#0c0f10",
+                    "surface-dim": "#d1d5d7",
+                    "surface": "#f5f6f7",
+                    "primary-fixed-dim": "#8ce4ab",
+                    "on-background": "#2c2f30",
+                    "on-secondary-fixed-variant": "#4e6300",
+                    "on-secondary-container": "#455900",
+                    "error": "#b02500",
+                    "tertiary-fixed": "#f9f9fc",
+                    "on-surface": "#2c2f30",
+                    "inverse-on-surface": "#9b9d9e",
+                    "surface-container": "#e6e8ea",
+                    "on-primary-fixed": "#004827",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#f9f9fc",
+                    "secondary-dim": "#435600",
+                    "tertiary-fixed-dim": "#ebebed",
+                    "outline-variant": "#abadae"
+            },
+            borderRadius: {
+                    DEFAULT: "0.25rem",
+                    lg: "0.5rem",
+                    xl: "0.75rem",
+                    "2xl": "1.5rem",
+                    "3xl": "2rem",
+                    full: "9999px"
+            },
+            fontFamily: {
+                    headline: ["Lexend", "IBM Plex Sans Thai", "sans-serif"],
+                    body: ["Inter", "IBM Plex Sans Thai", "sans-serif"],
+                    label: ["Lexend", "IBM Plex Sans Thai", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Lexend', 'IBM Plex Sans Thai', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        /* Custom scrollbar for horizontal lists */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24 selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-4 bg-surface/80 backdrop-blur-xl md:hidden">
+<div class="flex items-center gap-3">
+<img alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-lowest shadow-sm" data-alt="Portrait of an athletic young man looking confident, slightly smiling, wearing a sporty t-shirt, well-lit studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADUs6SXzk33O2fDJZmLczDapt_ZEshr8uz29E5BJrzOiXqt3km9fMI1w6RkKpf03bMT4TNdPXgFknGrZL98uhgOqVRRo141k_lgYzXBPBK2OHAJToQ0Q3FM7lCtaqvYRYSaCyZIdxTD3hv6Cp9egqlivdgMdt1f4sQyDNaTV7158WDT0fRW96GX-RbMW68uaCvt8_axthUCUcQMNZFQjD-QcDn7YUxz5hz961ciDX75XneABQPLA6K3_THJRifCkdn_tuvB22qAnY"/>
+<div>
+<p class="font-body text-xs text-on-surface-variant font-medium">สวัสดี</p>
+<h1 class="font-headline text-lg font-bold text-on-surface tracking-tight">คุณมาร์คัส</h1>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest shadow-[0_4px_12px_rgba(44,47,48,0.05)] text-on-surface hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface-container-lowest"></span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-24 px-5 max-w-lg mx-auto md:max-w-4xl md:pt-12">
+<!-- Section 1: Hero Match -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-headline text-xl font-bold text-on-surface tracking-tight">แมตช์ถัดไปของคุณ</h2>
+</div>
+<div class="relative bg-secondary-container rounded-[2rem] p-6 overflow-hidden shadow-[0_20px_40px_rgba(44,47,48,0.08)]">
+<!-- Decorative pattern -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
+<div class="absolute right-0 bottom-0 opacity-20 transform translate-x-1/4 translate-y-1/4">
+<span class="material-symbols-outlined text-9xl text-on-secondary-container">sports_tennis</span>
+</div>
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1.5 rounded-full mb-4 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-body text-xs font-bold text-on-surface uppercase tracking-wide">เริ่มในอีก 45 นาที</span>
+</div>
+<h3 class="font-headline text-2xl font-black text-on-secondary-container leading-tight mb-2">ท้าดวลคู่มือโปร</h3>
+<p class="font-body text-sm text-on-secondary-container/80 mb-5 font-medium">Bangkapi Badminton Club • คอร์ท 4</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container-lowest/80 text-on-surface shadow-sm">ระดับกลาง</span>
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container-lowest/80 text-on-surface shadow-sm flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">location_on</span>2 กม.</span>
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container-lowest/80 text-on-surface shadow-sm flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">ac_unit</span>ห้องแอร์</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="flex -space-x-2">
+<img alt="Player 1" class="w-8 h-8 rounded-full border-2 border-secondary-container object-cover" data-alt="Headshot of young Asian man smiling, wearing sportswear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_E84ekX3j7aXgbM8MUEGYQBFdChHgU-HvtW5zbxL14fguiN7Vsr1X-7PObJcMLgs0l7bIPbnMHiAW4_xMIKbVXLNgqBbSBTLFVb_oaOHUhwKPeRlNwBCNnYZUA8dgR-mA-D4cSpvps5LkSurGpIuXDw3bP32KlKePZt9VrcjSN260jHDnZnRGOR0uQIEtn7sBS48dxmg8L9utrkMyUvMms8cqOn-QwNR8DdIEUzoALDvxbf_BY5UGPAawlO6r1Q7u0ylEfruLRv8"/>
+<img alt="Player 2" class="w-8 h-8 rounded-full border-2 border-secondary-container object-cover" data-alt="Headshot of young Asian woman smiling, wearing a tank top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmCuSUG_ix3ROMnKfF7JXdjUhghyws-sWJrMMW2vbByKYlY8skBvIJSBThIOjVy5vdI2FylsIfbNFSnR3P2HsLp0Svf69Y62SBXnQcm5YiwAVJweSBdPL5uMdq4F0HxNQiSgS9U-JCU8HsbFewBuEihrZ8VblIVn359h-Z0lnYHcqR1es1gG_e1891DeqWOgfJ35uYX6Gc8y4LYixIjIQbTboGE6_7zwLgF119xaz5-IjU-aKA1D2tMjJOsikAhM6uGbENggcMwyo"/>
+</div>
+<span class="font-body text-xs text-on-secondary-container font-medium ml-2">+2 friends playing</span>
+</div>
+<button class="bg-surface-container-lowest text-on-surface px-5 py-2.5 rounded-xl font-body text-sm font-bold shadow-sm hover:bg-surface active:scale-95 transition-all">
+                            ดูรายละเอียด
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Performance Grid -->
+<section class="mb-8">
+<h2 class="font-headline text-xl font-bold text-on-surface tracking-tight mb-4">ผลงานของคุณ</h2>
+<div class="grid grid-cols-2 gap-3">
+<!-- ELO -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_8px_24px_rgba(44,47,48,0.03)] border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span class="font-body text-xs font-semibold uppercase tracking-wider">ELO Rating</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-headline text-3xl font-black text-on-surface">1,420</span>
+<span class="font-body text-sm font-bold text-primary mb-1">+12</span>
+</div>
+</div>
+<!-- Win Rate -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_8px_24px_rgba(44,47,48,0.03)] border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+<span class="font-body text-xs font-semibold uppercase tracking-wider">Win Rate</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-headline text-3xl font-black text-on-surface">68%</span>
+<span class="material-symbols-outlined text-primary mb-1">arrow_upward</span>
+</div>
+</div>
+<!-- Total Matches -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_8px_24px_rgba(44,47,48,0.03)] border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">swords</span>
+<span class="font-body text-xs font-semibold uppercase tracking-wider">Total Matches</span>
+</div>
+<span class="font-headline text-2xl font-black text-on-surface block mb-1">42</span>
+<span class="font-body text-xs font-medium text-on-surface-variant">32 Wins / 10 Losses</span>
+</div>
+<!-- Activity -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_8px_24px_rgba(44,47,48,0.03)] border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+<span class="font-body text-xs font-semibold uppercase tracking-wider">Weekly</span>
+</div>
+<div class="flex items-end justify-between h-10 mt-1">
+<div class="w-1.5 bg-surface-container-high rounded-t-full h-[40%]"></div>
+<div class="w-1.5 bg-primary-fixed-dim rounded-t-full h-[70%]"></div>
+<div class="w-1.5 bg-surface-container-high rounded-t-full h-[30%]"></div>
+<div class="w-1.5 bg-primary rounded-t-full h-[90%]"></div>
+<div class="w-1.5 bg-surface-container-high rounded-t-full h-[50%]"></div>
+<div class="w-1.5 bg-secondary-fixed rounded-t-full h-[100%]"></div>
+<div class="w-1.5 bg-surface-container-high rounded-t-full h-[20%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Courts Near You -->
+<section class="mb-8">
+<h2 class="font-headline text-xl font-bold text-on-surface tracking-tight mb-4">สนามใกล้คุณ</h2>
+<div class="relative bg-surface-container-lowest rounded-[1.5rem] overflow-hidden shadow-[0_12px_32px_rgba(44,47,48,0.04)] border border-outline-variant/10 h-48">
+<img alt="Map" class="w-full h-full object-cover opacity-60" data-alt="Abstract minimalist map view of a city with muted light gray and pale green tones, soft lighting" data-location="Bangkok" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAojd--ZsWCBmSyfTgGMYjG7SoC_UCKmSnD4bMuFh61S11WSddvrYA4hEZ2tFRWLnTCD0CzX41bgxUrrN8_ezCr22mWPKcKKwPI2GzlXzaikWqF3khM3JWU_FbP8XdXAHJjfZov_YQRLzi2iXfxRTxxsHn_QPkfK_ywyxInp14Ddu_nxs68GzkmI7LLoiE9KC0I1W9CJQN8qByyDNe0Sze6XuFxjW_nzwWFuDohuC61N-IHycusIxtf4rlK7NWEV0aWWKNlI6_lzSI"/>
+<!-- Overlay Elements -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface-container-lowest/20 to-transparent"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-5">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-headline text-lg font-bold text-on-surface">12 สนามว่าง</p>
+<p class="font-body text-sm font-medium text-on-surface-variant">รัศมี 5 กิโลเมตร</p>
+</div>
+<button class="bg-primary bg-gradient-to-r from-primary to-primary-dim text-on-primary px-4 py-2 rounded-xl font-body text-sm font-semibold shadow-md active:scale-95 transition-transform flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">map</span>
+                            เปิดแผนที่
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 bg-surface-container-lowest/90 dark:bg-slate-950/90 backdrop-blur-2xl rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,0,0,0.04)] md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">stadium</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-semibold">Courts</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-fixed text-on-secondary-fixed rounded-full px-5 py-2 transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined fill mb-1">sports_tennis</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-semibold">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-semibold">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-semibold">Profile</span>
+</a>
+</nav>
+</body></html>

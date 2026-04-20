@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Explore Matches - The Kinetic Court</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@400;700;800;900&amp;family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#b7e500",
+                    "primary-dim": "#005c34",
+                    "primary": "#006a3c",
+                    "on-surface": "#2c2f30",
+                    "inverse-on-surface": "#9b9d9e",
+                    "secondary-container": "#c3f400",
+                    "primary-fixed-dim": "#8ce4ab",
+                    "outline": "#757778",
+                    "tertiary": "#5a5c5e",
+                    "surface-dim": "#d1d5d7",
+                    "on-error-container": "#520c00",
+                    "on-tertiary-fixed": "#4b4d4f",
+                    "surface-container-high": "#e0e3e4",
+                    "on-error": "#ffefec",
+                    "on-primary-fixed": "#004827",
+                    "error": "#b02500",
+                    "surface-container-low": "#eff1f2",
+                    "secondary-dim": "#435600",
+                    "on-tertiary-container": "#5e5f61",
+                    "on-tertiary": "#f2f2f5",
+                    "inverse-surface": "#0c0f10",
+                    "inverse-primary": "#9af3b8",
+                    "tertiary-container": "#f9f9fc",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#4e6300",
+                    "on-primary-fixed-variant": "#00683b",
+                    "surface-container": "#e6e8ea",
+                    "surface-variant": "#dadddf",
+                    "tertiary-fixed-dim": "#ebebed",
+                    "error-dim": "#b92902",
+                    "on-secondary-fixed": "#354500",
+                    "error-container": "#f95630",
+                    "tertiary-dim": "#4e5052",
+                    "on-secondary": "#e1ff88",
+                    "secondary-fixed": "#c3f400",
+                    "on-surface-variant": "#595c5d",
+                    "surface-container-highest": "#dadddf",
+                    "on-background": "#2c2f30",
+                    "surface-bright": "#f5f6f7",
+                    "primary-fixed": "#9af3b8",
+                    "surface-tint": "#006a3c",
+                    "on-primary-container": "#005d34",
+                    "outline-variant": "#abadae",
+                    "tertiary-fixed": "#f9f9fc",
+                    "on-primary": "#cbffd8",
+                    "on-secondary-fixed-variant": "#4e6300",
+                    "on-tertiary-fixed-variant": "#686a6c",
+                    "background": "#f5f6f7",
+                    "surface": "#f5f6f7",
+                    "on-secondary-container": "#455900",
+                    "primary-container": "#9af3b8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend", "IBM Plex Sans Thai"],
+                    "body": ["Inter", "IBM Plex Sans Thai"],
+                    "label": ["Lexend", "IBM Plex Sans Thai"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif; }
+        .font-lexend { font-family: 'Lexend', 'IBM Plex Sans Thai', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
+<!-- Top AppBar - Shared Component Execution -->
+<header class="fixed top-0 w-full z-50 bg-[#f5f6f7]/80 dark:bg-[#1a1c1e]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#006a3c] dark:text-[#9af3b8] active:scale-95 duration-200">menu</button>
+<h1 class="font-lexend font-black text-[#006a3c] dark:text-[#9af3b8] tracking-tighter text-xl">Explore Matches</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden active:scale-95 duration-200">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a young professional athlete with a clean modern aesthetic, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMSbEOPQRkKFsgf9LnHlRejV2y3DAUOOx7vv9BOQKhrUQq4zEkadjzDNJDlV355sM1yx5-ZbJ3BWj6b8wQ8zg1dxCSfYwBf7OJmsyrhiTTZHw8bWNSZC-zth5WgtSZeBSuTu6rUcpfZZ2RBh80SkKFyNEh58M5quMV0GUuYjjoMNchtzJ9jU2Gi0mXLMwD-mYR_VyL4wJgiNh6ohpTg8saPfefTHT2l-oVsVL25A_F-I8_wCItkK9ubh59oYbz3_okqDw4Y9mBhx4"/>
+</div>
+</div>
+</header>
+<main class="pt-16 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Search Bar Section -->
+<div class="mt-6 mb-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary font-body text-on-surface-variant transition-all" placeholder="Search courts or clubs..." type="text"/>
+</div>
+</div>
+<!-- Filter Chips - Horizontal Scroll -->
+<div class="flex gap-2 overflow-x-auto pb-4 -mx-6 px-6 no-scrollbar">
+<button class="flex-none px-5 py-2.5 bg-primary text-on-primary rounded-full font-label text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                Today
+            </button>
+<button class="flex-none px-5 py-2.5 bg-surface-container-highest text-on-surface rounded-full font-label text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity">
+                Skill Level
+                <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex-none px-5 py-2.5 bg-surface-container-highest text-on-surface rounded-full font-label text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity">
+                Distance
+                <span class="material-symbols-outlined text-[18px]">distance</span>
+</button>
+<button class="flex-none px-5 py-2.5 bg-surface-container-highest text-on-surface rounded-full font-label text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity">
+                Price
+            </button>
+</div>
+<!-- List View - Vertical Match Cards -->
+<section class="mt-4 space-y-6">
+<!-- Match Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden p-5 flex flex-col gap-4 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="px-3 py-1 bg-primary text-on-primary text-[10px] font-black uppercase tracking-widest rounded-full font-label">Advanced</span>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight pt-1">Velocity Open Singles</h3>
+<p class="font-body text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Skyline Badminton Club
+                        </p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl font-headline">฿15</div>
+<div class="text-on-surface-variant text-[10px] font-bold font-label">PER PLAYER</div>
+</div>
+</div>
+<div class="flex items-center gap-4 py-2 border-y border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">badminton</span>
+<span class="font-body text-xs font-semibold text-on-surface">Yonex AS-30</span>
+</div>
+<div class="w-px h-4 bg-outline-variant/20"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">schedule</span>
+<span class="font-body text-xs font-semibold text-on-surface">19:00 - 21:00</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex -space-x-2">
+<img alt="Player 1" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Portrait of a young athletic male player in sportswear, bright lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARoQQj9ZrgHRExnwwNYjghVclFwyn2_PPAmJ8_wWwJM8g3lvOpyTJ9loQxOeCNcjBhn_RXaaZeyWrKmbTeF_vue03UE7S-uNdbvol6rTpwSaV80_KtXWKfgobVjg4fwpYs7BczKsm753TNvGMAvo72ZypgYVURAKffoNT7T-5nAuqEo1fWwdfxCgxxfT67Ho5JGrnjRKDtOI3UUo6WObbcGBj8iUFJWZPBHS2qb35pITAr0cOJtdcuziOR89DZCWtDLsBhK5XQE0k"/>
+<img alt="Player 2" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Portrait of a female badminton player smiling, outdoor athletic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuDS-eMvu7bkTi-euUKa7WGngim6QU8AAVS5ricUEr5A4II6R95FOrhXZqBNeZaGk-7NWbxwZGFzhJ1loKXEWnGPPGIzGwkVkc6KHEG-XKhXxNC-rcd2VanMY91i0ML88ZwGG0zVrgeQVRzUUhNpjs8o4_kOX7b64CN8pDUYohUOGUZea8w1P2DwWelmJw2zxcWaNlsoXFS7_PL5c0WMVXy5UcW55sgUwmfpWkaNcrizaSHzkML1BaLGkIo0g2INyQyRD54eTyjXA"/>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center border-2 border-surface-container-lowest text-[10px] font-bold text-on-surface-variant">
+                            +2
+                        </div>
+</div>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-6 py-2.5 rounded-lg font-headline font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+                        Join Match
+                    </button>
+</div>
+</div>
+<!-- Match Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden p-5 flex flex-col gap-4 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-fixed text-[10px] font-black uppercase tracking-widest rounded-full font-label">Intermediate</span>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight pt-1">Morning Rally Doubles</h3>
+<p class="font-body text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            The Green Arena
+                        </p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl font-headline">฿12</div>
+<div class="text-on-surface-variant text-[10px] font-bold font-label">PER PLAYER</div>
+</div>
+</div>
+<div class="flex items-center gap-4 py-2 border-y border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">badminton</span>
+<span class="font-body text-xs font-semibold text-on-surface">RSL No.1</span>
+</div>
+<div class="w-px h-4 bg-outline-variant/20"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">schedule</span>
+<span class="font-body text-xs font-semibold text-on-surface">08:00 - 10:00</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex -space-x-2">
+<img alt="Player 3" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Young man in athletic gear, energetic sports photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5nr_eXuuKqbZo7VgDSjyxP5Xm6QDxDDbB1KVlToA360v6c8WpCcHrDapTBYHvIppcUDHirlvseXFB0EsCGB9_3H5k7UfW_u0z0T3wGou1siAWNSE26AXP50bR9_cH9akVAOPjalHftekMAsDhRS8bUgmeOdK94qVdjyzzANsMfgMfwyLxBqJpuFGned-PNurahp399mHU2WeOYDWkdCdZpJAM6rEzNIul7F3wB4yu2ric17VSme1n73nPbhPPigjgb8M45Of1ktk"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline">person_add</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-headline font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+                        Join Match
+                    </button>
+</div>
+</div>
+<!-- Match Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden p-5 flex flex-col gap-4 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-black uppercase tracking-widest rounded-full font-label">Beginner</span>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight pt-1">Casual Sunday Smash</h3>
+<p class="font-body text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                            Downtown Community Hub
+                        </p>
+</div>
+<div class="text-right">
+<div class="text-primary font-black text-2xl font-headline">฿8</div>
+<div class="text-on-surface-variant text-[10px] font-bold font-label">PER PLAYER</div>
+</div>
+</div>
+<div class="flex items-center gap-4 py-2 border-y border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">badminton</span>
+<span class="font-body text-xs font-semibold text-on-surface">Nylon Hybrid</span>
+</div>
+<div class="w-px h-4 bg-outline-variant/20"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-dim">schedule</span>
+<span class="font-body text-xs font-semibold text-on-surface">16:00 - 18:00</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex -space-x-2">
+<img alt="Player 4" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Portrait of a smiling young woman in a tennis outfit, clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCubJnoOqKxoqSY0L3TltHzL7MjZ4T7VSIS82EjIsbc5gI3JMPLgYg3Wr9iFlH_9GLK9PajQmzrZMe_waN50BfpdTtY4OhxV2mjaaLd4-au_ZzSiLTVTyL7wNZf8X9VjEZtP5zeKIdeP3SkWpFfQdmqANWbtGSKmrS8LLUR8fN0F-yiv0jdJZCIQreNRVMkXvNUuClKJNwfBqKWmMHeq3_D3ReJCzrBBm_qf7zBZVt3FJIqePIT2Sq5pzwUJUkjgCd2knTYAPZp_aE"/>
+<img alt="Player 5" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Close up of a sporty man with a friendly expression, natural outdoor light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc3Hvr4Hq0w85oReI-j6Ox8Cu-SL-dQ6X7qM43No4UeXiXOmeSIdXxC79tFXO7YxB8h8G4jm7XAhrpQIjffpbN4RkjbKaejE3bJk5YjltsLPh-SwUC4MUxygvqod1yDBNWhY_f4hr_Kr_XAlxzARtHHyz2zc5ei0YnT9Kwmhklu4xZXwql-BSRSDUjSq6p4eCXQ_Ndy1ii6zVny7XGuzxxLh3tEbFl_3oBHnEBuD--BTv5rRJPYQdMh13LE9Rr7-J2EQ6PphHEqd4"/>
+<img alt="Player 6" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Energetic portrait of an athlete, focused expression, high key lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB05UPZDfi-C0ZgRJvP-Al7ICAm08XY6JCoa1gxuK6uculLsLck5S7_HR-5sznVD3cUmGcQ4zEAuGBg7qNqbyLC5GJZRMD98gtTG0kQzvNa7rf56q2WXCOsW-8xsHBsIM_bo6DwOVWvtD0tOAfY8UBtH_jw-Po5B7UQAlSTp_t_3_guoD_4bQXGT1OFG00rYE3ClxIcr5-bGwewG6imaYfabSYbPBdx29--kb6TnuG6Vx9CLa6rM-3dTt80qmuFVoI0XzMcWrhbuIs"/>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-headline font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+                        Join Match
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Toggle Button -->
+<div class="fixed bottom-28 left-0 w-full flex justify-center pointer-events-none z-40">
+<button class="pointer-events-auto bg-on-surface text-surface flex items-center gap-2 px-6 py-3.5 rounded-full shadow-2xl font-headline font-bold text-sm active:scale-90 transition-all">
+<span class="material-symbols-outlined">map</span>
+            Map
+        </button>
+</div><!-- FAB - Create Match -->
+<div class="fixed bottom-32 right-6 z-50">
+<button class="w-14 h-14 text-background-dark rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-all hover:brightness-110 bg-[#CCFF00]">
+<span class="material-symbols-outlined text-3xl font-bold">add</span>
+</button>
+</div>
+<!-- BottomNavBar - Shared Component Execution -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f5f6f7]/90 dark:bg-[#1a1c1e]/90 backdrop-blur-lg z-50 rounded-t-3xl shadow-[0px_-4px_20px_rgba(0,0,0,0.04)]">
+<!-- Matches (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#c3f400] dark:bg-[#4e6300] text-[#354500] dark:text-[#c3f400] rounded-2xl px-5 py-2 scale-105 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_tennis</span>
+<span class="font-lexend text-[10px] font-medium tracking-wide uppercase mt-1">Matches</span>
+</a>
+<!-- Courts -->
+<a class="flex flex-col items-center justify-center text-[#5c5e5f] dark:text-[#c6c6c7] px-5 py-2 hover:text-[#006a3c] dark:hover:text-[#9af3b8] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-lexend text-[10px] font-medium tracking-wide uppercase mt-1">Courts</span>
+</a>
+<!-- Stats -->
+<a class="flex flex-col items-center justify-center text-[#5c5e5f] dark:text-[#c6c6c7] px-5 py-2 hover:text-[#006a3c] dark:hover:text-[#9af3b8] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-lexend text-[10px] font-medium tracking-wide uppercase mt-1">Stats</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#5c5e5f] dark:text-[#c6c6c7] px-5 py-2 hover:text-[#006a3c] dark:hover:text-[#9af3b8] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-lexend text-[10px] font-medium tracking-wide uppercase mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

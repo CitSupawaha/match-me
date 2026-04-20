@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --neon-lime: #CCFF00;
+            --deep-obsidian: #09090b; /* zinc-950 */
+            --charcoal-contrast: #18181b; /* zinc-900 */
+            --charcoal-hover: #27272a; /* zinc-800 */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Lexend', 'IBM Plex Sans Thai', sans-serif;
+        }
+        .font-lexend { font-family: 'Lexend', sans-serif; }
+        .font-ibm-thai { font-family: 'Lexend', 'IBM Plex Sans Thai', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 8px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#CCFF00",
+                        "on-primary": "#000000",
+                        "background": "#09090b",
+                        "surface": "#18181b",
+                        "surface-container": "#27272a",
+                        "surface-container-high": "#3f3f46",
+                        "on-surface": "#fafafa",
+                        "outline": "#52525b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col items-center justify-end overflow-hidden">
+<div class="absolute inset-0 z-0 p-6 opacity-40 blur-sm pointer-events-none">
+<header class="flex justify-between items-center mb-8">
+<h1 class="text-3xl font-lexend font-extrabold tracking-tight text-[var(--neon-lime)]">Host a Match</h1>
+<div class="w-12 h-12 rounded-full bg-surface-container"></div>
+</header>
+<div class="space-y-6">
+<div class="h-48 bg-surface-container rounded-lg"></div>
+<div class="h-12 bg-surface-container-high rounded-full"></div>
+<div class="h-12 bg-surface-container-high rounded-full"></div>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/80 backdrop-blur-md z-40"></div>
+<div class="relative z-50 w-full max-w-lg bg-[var(--deep-obsidian)] rounded-t-[2rem] shadow-2xl flex flex-col max-h-[795px] animate-slide-up border-t border-zinc-800">
+<div class="w-full flex justify-center py-4">
+<div class="w-12 h-1.5 bg-zinc-800 rounded-full"></div>
+</div>
+<div class="px-6 pb-4">
+<h2 class="text-2xl font-lexend font-bold text-white mb-4 tracking-tight">เลือกสนาม</h2>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-zinc-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-[var(--charcoal-contrast)] border border-zinc-800 rounded-lg py-3 pl-12 pr-4 text-white font-lexend placeholder:text-zinc-500 focus:ring-2 focus:ring-[var(--neon-lime)] transition-all" placeholder="ค้นหาชื่อสนามหรือทำเล..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-6 space-y-3 pb-28 custom-scrollbar">
+<div class="bg-[var(--charcoal-contrast)] rounded-lg p-3 flex items-center gap-3 border border-zinc-800 hover:bg-[var(--charcoal-hover)] transition-colors cursor-pointer group shadow-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 relative border border-zinc-700">
+<img class="w-full h-full object-cover grayscale-[0.3] opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVMBmE3jYZh03rAs9AE1iGmhz162q5wPnM7mVJkuVJBf74YI7YRp_6TuIYyA-K_HL_d3muJDJQW7VJIrYiT9MJk8UhzPz2Clgjq4f5MdUmQF6uAZ3f979x1Dbeg5Y53fLFigr15bPhK5mVSrVEMDTh06I5uxrQQUVyf5csFOt6ZJBoNf2WtJtc_2GnjZ8ss_-rllLtkz9jYzktKML-7YInyIFpI44XPZrMiGcr1zcs0TQJvBgyJZOLT9kjHr4zhveXtvy3mibFlSI"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="font-lexend font-bold text-sm text-white truncate">Kinetic Central</h3>
+<span class="bg-[var(--neon-lime)] text-black text-[8px] font-bold px-1.5 py-0.5 rounded-sm uppercase flex-shrink-0">Top Rated</span>
+</div>
+<p class="font-lexend text-[11px] text-zinc-400 truncate mt-0.5">ถนนพระราม 9, กรุงเทพฯ</p>
+<div class="flex gap-2 mt-1.5">
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span>
+<span class="text-[10px] font-medium font-lexend">แอร์</span>
+</div>
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">grid_view</span>
+<span class="text-[10px] font-medium font-lexend">ยางพารา</span>
+</div>
+</div>
+</div>
+<button class="w-12 h-12 flex flex-col items-center justify-center bg-[var(--neon-lime)] text-black rounded-lg flex-shrink-0 transition-transform active:scale-90 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="text-[8px] font-lexend font-bold mt-0.5">เลือก</span>
+</button>
+</div>
+<div class="bg-[var(--charcoal-contrast)] rounded-lg p-3 flex items-center gap-3 border border-zinc-800 hover:bg-[var(--charcoal-hover)] transition-colors cursor-pointer shadow-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 border border-zinc-700">
+<img class="w-full h-full object-cover grayscale-[0.3] opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZqa38BWg5q6-00RAn6kznVrpTibtDdy1r8ITBfSLHZ9LhqZaE4iyTL4Mt1i_jltr2jx3muBg9oMEiHGnlzqH2c9qVyf3B6fOYSJxNRO8kXDGx0TFTTCiUv2EmkCqQC0NmyK0wIZPnqsJzX_NSwk6KMAewlmmzrAaNKXahNBWwlGyU9dyTA-Ry4kQYy7Mv2sDD2wy4_pRGPR9vdb-wbLwNSE1G4gOytJYZFK756Hmnq-38HTygC6d-D4ZJvy5TITwoEHFXpIvRE3A"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<h3 class="font-lexend font-bold text-sm text-white truncate">Shuttle Hub</h3>
+<p class="font-lexend text-[11px] text-zinc-400 truncate mt-0.5">ซอยสุขุมวิท 71, กรุงเทพฯ</p>
+<div class="flex gap-2 mt-1.5">
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">local_parking</span>
+<span class="text-[10px] font-medium font-lexend">ที่จอดรถ</span>
+</div>
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">grid_view</span>
+<span class="text-[10px] font-medium font-lexend">พาร์เก้</span>
+</div>
+</div>
+</div>
+<button class="w-12 h-12 flex flex-col items-center justify-center bg-zinc-800 text-white rounded-lg flex-shrink-0 active:scale-90 border border-zinc-700 hover:border-[var(--neon-lime)] hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="text-[8px] font-lexend font-bold mt-0.5">เลือก</span>
+</button>
+</div>
+<div class="bg-[var(--charcoal-contrast)] rounded-lg p-3 flex items-center gap-3 border border-zinc-800 hover:bg-[var(--charcoal-hover)] transition-colors cursor-pointer shadow-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 border border-zinc-700">
+<img class="w-full h-full object-cover grayscale-[0.3] opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtnOCI-RTg8HpGMzcPIMM5uwi5SpAvUvD7qbW_ZHsWhqIz5cA9ukn6wxYDYlmznbR_rPUVfQpznA9XFmrSej7vMaHoO6Kfyxnqh7TafVzZd4_ZO7OkpsfK3CqlCkGDk0vrlfE96bHu40J47ks-_yUmh7PyVXwpRCfKmCefVdySMOaoH_9ezJ-KSmTfodt5U2q5JpFMMnwaH-SeHklHqBlP_kHifKbQeTO5jg62lfZfNBoL8ejlcgEmM1GRFKxQC3MMVYxJr8OdmI8"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<h3 class="font-lexend font-bold text-sm text-white truncate">Ace Arena</h3>
+<p class="font-lexend text-[11px] text-zinc-400 truncate mt-0.5">ย่านหมอชิต, กรุงเทพฯ</p>
+<div class="flex gap-2 mt-1.5">
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span>
+<span class="text-[10px] font-medium font-lexend">แอร์</span>
+</div>
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">shower</span>
+<span class="text-[10px] font-medium font-lexend">ห้องน้ำ</span>
+</div>
+</div>
+</div>
+<button class="w-12 h-12 flex flex-col items-center justify-center bg-zinc-800 text-white rounded-lg flex-shrink-0 active:scale-90 border border-zinc-700 hover:border-[var(--neon-lime)] hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="text-[8px] font-lexend font-bold mt-0.5">เลือก</span>
+</button>
+</div>
+<div class="bg-[var(--charcoal-contrast)] rounded-lg p-3 flex items-center gap-3 border border-zinc-800 hover:bg-[var(--charcoal-hover)] transition-colors cursor-pointer shadow-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 border border-zinc-700">
+<img class="w-full h-full object-cover grayscale-[0.3] opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVMBmE3jYZh03rAs9AE1iGmhz162q5wPnM7mVJkuVJBf74YI7YRp_6TuIYyA-K_HL_d3muJDJQW7VJIrYiT9MJk8UhzPz2Clgjq4f5MdUmQF6uAZ3f979x1Dbeg5Y53fLFigr15bPhK5mVSrVEMDTh06I5uxrQQUVyf5csFOt6ZJBoNf2WtJtc_2GnjZ8ss_-rllLtkz9jYzktKML-7YInyIFpI44XPZrMiGcr1zcs0TQJvBgyJZOLT9kjHr4zhveXtvy3mibFlSI"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<h3 class="font-lexend font-bold text-sm text-white truncate">Sky Court</h3>
+<p class="font-lexend text-[11px] text-zinc-400 truncate mt-0.5">สีลม, กรุงเทพฯ</p>
+<div class="flex gap-2 mt-1.5">
+<div class="flex items-center gap-1 text-zinc-400">
+<span class="material-symbols-outlined text-[14px]">local_parking</span>
+<span class="text-[10px] font-medium font-lexend">ที่จอดรถ</span>
+</div>
+</div>
+</div>
+<button class="w-12 h-12 flex flex-col items-center justify-center bg-zinc-800 text-white rounded-lg flex-shrink-0 active:scale-90 border border-zinc-700 hover:border-[var(--neon-lime)] hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="text-[8px] font-lexend font-bold mt-0.5">เลือก</span>
+</button>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 w-full bg-[var(--deep-obsidian)]/95 backdrop-blur-xl border-t border-zinc-800 pb-8 pt-2 px-4 flex justify-around items-center">
+<div class="flex flex-col items-center justify-center text-zinc-500 px-5 py-2 hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined">stadium</span>
+<span class="font-lexend text-[11px] font-medium mt-1">Courts</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 px-5 py-2 hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined">sports_tennis</span>
+<span class="font-lexend text-[11px] font-medium mt-1">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[var(--neon-lime)] text-black rounded-lg px-6 py-2.5 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-lexend text-[11px] font-bold mt-1">Host</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 px-5 py-2 hover:text-[var(--neon-lime)] transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="font-lexend text-[11px] font-medium mt-1">Profile</span>
+</div>
+</div>
+</div>
+</body></html>

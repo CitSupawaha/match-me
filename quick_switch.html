@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Record Match</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Lexend:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#b02500",
+                        "on-tertiary-container": "#5e5f61",
+                        "surface-dim": "#d1d5d7",
+                        "tertiary-dim": "#4e5052",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ce4ab",
+                        "inverse-primary": "#9af3b8",
+                        "secondary-dim": "#435600",
+                        "background": "#f5f6f7",
+                        "on-tertiary-fixed": "#4b4d4f",
+                        "on-tertiary": "#f2f2f5",
+                        "on-primary-container": "#005d34",
+                        "on-error-container": "#520c00",
+                        "surface-container-highest": "#dadddf",
+                        "on-secondary-container": "#455900",
+                        "on-secondary-fixed-variant": "#4e6300",
+                        "on-primary-fixed-variant": "#00683b",
+                        "outline-variant": "#abadae",
+                        "tertiary": "#5a5c5e",
+                        "primary": "#006a3c",
+                        "surface-container-high": "#e0e3e4",
+                        "on-tertiary-fixed-variant": "#686a6c",
+                        "secondary-container": "#c3f400",
+                        "tertiary-container": "#f9f9fc",
+                        "on-primary": "#cbffd8",
+                        "on-surface": "#2c2f30",
+                        "on-surface-variant": "#595c5d",
+                        "tertiary-fixed-dim": "#ebebed",
+                        "on-error": "#ffefec",
+                        "secondary": "#4e6300",
+                        "primary-container": "#9af3b8",
+                        "primary-fixed": "#9af3b8",
+                        "on-primary-fixed": "#004827",
+                        "surface-container": "#e6e8ea",
+                        "inverse-surface": "#0c0f10",
+                        "secondary-fixed-dim": "#b7e500",
+                        "outline": "#757778",
+                        "surface-tint": "#006a3c",
+                        "surface-container-low": "#eff1f2",
+                        "on-secondary-fixed": "#354500",
+                        "tertiary-fixed": "#f9f9fc",
+                        "inverse-on-surface": "#9b9d9e",
+                        "error-dim": "#b92902",
+                        "on-background": "#2c2f30",
+                        "secondary-fixed": "#c3f400",
+                        "surface-variant": "#dadddf",
+                        "surface": "#f5f6f7",
+                        "error-container": "#f95630",
+                        "primary-dim": "#005c34",
+                        "surface-bright": "#f5f6f7",
+                        "on-secondary": "#e1ff88"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend", "sans-serif"],
+                        "body": ["IBM Plex Sans Thai", "Inter", "sans-serif"],
+                        "label": ["Lexend", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased min-h-screen pb-24 selection:bg-secondary selection:text-on-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f5f6f7]/80 dark:bg-slate-950/80 backdrop-blur-xl bg-[#e6e8ea] dark:bg-slate-800 flat no shadows flex items-center justify-between px-6 h-16">
+<button class="text-[#006a3c] dark:text-[#9af3b8] hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h1 class="font-['Lexend'] font-bold tracking-tight text-xl text-[#006a3c] dark:text-[#9af3b8]">Record Match</h1>
+<button class="text-[#2c2f30] dark:text-slate-400 hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl">history</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-24 px-4 max-w-md mx-auto space-y-8">
+<!-- Match Settings -->
+<section class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(44,47,48,0.04)] ring-1 ring-outline-variant/15">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline font-semibold text-lg text-on-surface">Match Setup</h2>
+<div class="bg-surface-container-low px-3 py-1 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm font-medium text-on-surface-variant">Court 3</span>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-on-surface-variant mb-1">Match Type</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-primary text-on-primary py-2 px-4 rounded-lg font-medium shadow-sm transition-transform active:scale-95 text-sm">Doubles</button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface py-2 px-4 rounded-lg font-medium transition-colors text-sm">Singles</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-on-surface-variant mb-1">Scoring System</label>
+<select class="w-full bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-container-lowest text-on-surface py-2.5 text-sm">
+<option>Best of 3 (21 Points)</option>
+<option>Single Game (21 Points)</option>
+<option>Single Game (31 Points)</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Team 1 -->
+<section class="relative">
+<div class="absolute -left-2 top-0 bottom-0 w-1 bg-primary rounded-r-full"></div>
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(44,47,48,0.04)] ring-1 ring-outline-variant/15">
+<div class="flex items-center justify-between mb-5">
+<h3 class="font-headline font-semibold text-lg text-on-surface flex items-center gap-2">
+                        Team 1
+                    </h3>
+<button class="flex items-center gap-1.5 text-xs font-medium text-primary hover:bg-primary/5 px-2.5 py-1 rounded-full transition-colors group">
+<span class="material-symbols-outlined text-[16px] group-hover:-rotate-180 transition-transform duration-300">sync</span>
+                        Quick Switch
+                    </button>
+</div>
+<div class="space-y-4">
+<!-- Player 1 -->
+<div class="relative flex items-center gap-3 bg-surface-container p-2 rounded-lg">
+<img alt="Player Avatar" class="w-10 h-10 rounded-full object-cover shadow-sm bg-surface-container-high border border-white/20" data-alt="close up portrait of a young woman with natural makeup looking slightly off camera, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1H6Yzo4wxs_zFBhuDp-ObialzExU0A-N--qaDnEgi_HfmMqFN7q-kJOoL4vXfmJng9CfXIqzeqydmBBAKOuitSrUHoEnRTDDzSmMdzR4UckVHSTr4DNU_gt5aY90IZYFrSGxkLHG_70D43-n-ACyFH41-H82w4gDbEXBXADI-TqtxjObEIfotlG3hTBER4gyR9dSQWp7TIroMJ7N0m4fv3x3ig4-qREdIxgdWpPhoRYPYCq10lw1xp8DfTiukFSWLWabKn5rauRw"/>
+<div class="flex-1">
+<select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium text-on-surface">
+<option>Sarah Chen</option>
+<option>Emma Watson</option>
+<option>Select Player...</option>
+</select>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Advanced
+                            </p>
+</div>
+</div>
+<!-- Player 2 -->
+<div class="relative flex items-center gap-3 bg-surface-container p-2 rounded-lg">
+<img alt="Player Avatar" class="w-10 h-10 rounded-full object-cover shadow-sm bg-surface-container-high border border-white/20" data-alt="close up portrait of a young man with short hair looking directly at camera, natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvttK-wJcXtoTIcB6Likplg0oWKo2e8FON78k8IKmk2Rm9RUtSRrQS_zd6L0SvymxG8z6AuH2A0yoqQh7kWSVHZVBvavaZO6xlRmhH3PY50EP8lVfWfSplbWjman08aEkl_gJz2Shk1CnsxUJq5oXQfXkeerReGhGn8S5yaFkSekzB-_abmakon2TU-SPjHJ4phd1mujL9ydmCq5fcM3lBZgaNbStjbWRjP7U1LbFjc0F2436Hx-ZLnQKrtrHC803hlXmRUn9v-i4"/>
+<div class="flex-1">
+<select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium text-on-surface">
+<option>David Kim</option>
+<option>Michael Chang</option>
+<option>Select Player...</option>
+</select>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                Intermediate
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VS Divider -->
+<div class="flex items-center justify-center -my-2 relative z-10">
+<div class="bg-surface-container-lowest text-on-surface font-headline font-bold text-sm w-10 h-10 rounded-full flex items-center justify-center shadow-md ring-4 ring-surface">
+                VS
+            </div>
+</div>
+<!-- Team 2 -->
+<section class="relative">
+<div class="absolute -right-2 top-0 bottom-0 w-1 bg-surface-container-highest rounded-l-full"></div>
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(44,47,48,0.04)] ring-1 ring-outline-variant/15">
+<div class="flex items-center justify-between mb-5">
+<h3 class="font-headline font-semibold text-lg text-on-surface flex items-center gap-2">
+                        Team 2
+                    </h3>
+<button class="flex items-center gap-1.5 text-xs font-medium text-primary hover:bg-primary/5 px-2.5 py-1 rounded-full transition-colors group">
+<span class="material-symbols-outlined text-[16px] group-hover:-rotate-180 transition-transform duration-300">sync</span>
+                        Quick Switch
+                    </button>
+</div>
+<div class="space-y-4">
+<!-- Player 3 -->
+<div class="relative flex items-center gap-3 bg-surface-container p-2 rounded-lg">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant border border-dashed border-outline-variant/30">
+<span class="material-symbols-outlined text-xl">person_add</span>
+</div>
+<div class="flex-1">
+<select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium text-on-surface-variant italic">
+<option disabled="" selected="" value="">Select Player...</option>
+<option>James Wilson</option>
+<option>Lisa Ray</option>
+</select>
+</div>
+</div>
+<!-- Player 4 -->
+<div class="relative flex items-center gap-3 bg-surface-container p-2 rounded-lg">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant border border-dashed border-outline-variant/30">
+<span class="material-symbols-outlined text-xl">person_add</span>
+</div>
+<div class="flex-1">
+<select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium text-on-surface-variant italic">
+<option disabled="" selected="" value="">Select Player...</option>
+<option>James Wilson</option>
+<option>Lisa Ray</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Button -->
+<div class="pt-6">
+<button class="w-full bg-gradient-to-r from-primary to-primary-dim text-white font-headline font-semibold py-4 rounded-xl shadow-[0px_8px_16px_rgba(0,106,60,0.15)] active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                Record Result
+                <span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-2 bg-[#f5f6f7]/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-t-[1.5rem] z-50 no-border tonal-shift shadow-[0px_-4px_20px_rgba(0,0,0,0.04)] hidden md:hidden">
+<a class="flex flex-col items-center justify-center text-[#2c2f30] dark:text-slate-400 opacity-60 hover:bg-[#e6e8ea] dark:hover:bg-slate-800 rounded-[1rem] p-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">sports_tennis</span>
+<span class="font-['Lexend'] text-[10px] font-medium tracking-wide">Courts</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#c3f400] dark:bg-[#4e6300] text-[#354500] dark:text-[#f5f6f7] rounded-[1rem] px-5 py-1.5 transition-all hover:bg-[#e6e8ea] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined mb-1">emoji_events</span>
+<span class="font-['Lexend'] text-[10px] font-medium tracking-wide">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2c2f30] dark:text-slate-400 opacity-60 hover:bg-[#e6e8ea] dark:hover:bg-slate-800 rounded-[1rem] p-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-['Lexend'] text-[10px] font-medium tracking-wide">Players</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2c2f30] dark:text-slate-400 opacity-60 hover:bg-[#e6e8ea] dark:hover:bg-slate-800 rounded-[1rem] p-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-['Lexend'] text-[10px] font-medium tracking-wide">Stats</span>
+</a>
+</nav>
+</body></html>
