@@ -6,6 +6,7 @@ import 'dart:math' as import_math;
 
 import '../../../../core/theme/design_tokens.dart';
 import 'match_results_screen.dart';
+
 class MatchDetailsScreen extends StatelessWidget {
   const MatchDetailsScreen({super.key});
 
@@ -19,88 +20,86 @@ class MatchDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: AppBar(
-              backgroundColor:
-                  (isDark ? const Color(0xFF131315) : colorScheme.surface)
-                      .withOpacity(0.8),
-              elevation: 0,
-              centerTitle: true,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: isDark ? Colors.white : Colors.black,
-                  size: 20,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-              title: Text(
-                'Match Details',
-                style: GoogleFonts.lexend(
-                  fontWeight: FontWeight.bold,
-                  color: primaryColor,
-                  fontSize: 20,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Iconsax.clock_copy,
-                    color: isDark ? Colors.white70 : Colors.black87,
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          _buildSliverAppBar(context, isDark, colorScheme, primaryColor),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                _buildHeroImage(context, isDark),
+                Transform.translate(
+                  offset: const Offset(0, -32),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitleCard(context, isDark, primaryColor),
+                        const SizedBox(height: 32),
+                        _buildLogisticsSection(context, isDark, primaryColor),
+                        const SizedBox(height: 32),
+                        _buildHighlightsGrid(context, isDark, primaryColor),
+                        const SizedBox(height: 32),
+                        _buildSquadSection(context, isDark, primaryColor),
+                        const SizedBox(height: 32),
+                        _buildHostNote(context, isDark, primaryColor),
+                        const SizedBox(
+                          height: 120,
+                        ), // Padding for sticky bottom button
+                      ],
+                    ),
                   ),
-                  onPressed: () {},
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.share,
-                    color: isDark ? Colors.white70 : Colors.black87,
-                  ),
-                  onPressed: () {},
-                ),
-                const SizedBox(width: 8),
               ],
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _buildHeroImage(context, isDark),
-            Transform.translate(
-              offset: const Offset(0, -32),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTitleCard(context, isDark, primaryColor),
-                    const SizedBox(height: 32),
-                    _buildLogisticsSection(context, isDark, primaryColor),
-                    const SizedBox(height: 32),
-                    _buildHighlightsGrid(context, isDark, primaryColor),
-                    const SizedBox(height: 32),
-                    _buildSquadSection(context, isDark, primaryColor),
-                    const SizedBox(height: 32),
-                    _buildHostNote(context, isDark, primaryColor),
-                    const SizedBox(
-                      height: 120,
-                    ), // Padding for sticky bottom button
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
       bottomNavigationBar: _buildStickyBottomBar(context, isDark, primaryColor),
+    );
+  }
+
+  Widget _buildSliverAppBar(
+    BuildContext context,
+    bool isDark,
+    ColorScheme colorScheme,
+    Color primaryColor,
+  ) {
+    return SliverAppBar(
+      pinned: true,
+      backgroundColor: isDark
+          ? DesignTokens.darkBackground
+          : const Color(0xFFF5F6F7),
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      leading: IconButton(
+        icon: Icon(
+          Iconsax.arrow_left_copy,
+          color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+      centerTitle: true,
+      title: Text(
+        'Match Details',
+        style: GoogleFonts.ibmPlexSansThai(
+          fontWeight: FontWeight.bold,
+          color: isDark ? Colors.white : Colors.black,
+          fontSize: 20,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Iconsax.clock_copy, color: colorScheme.onSurface),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.share, color: colorScheme.onSurface),
+          onPressed: () {},
+        ),
+        const SizedBox(width: 8),
+      ],
     );
   }
 
@@ -233,7 +232,7 @@ class MatchDetailsScreen extends StatelessWidget {
       ),
       child: Text(
         text.toUpperCase(),
-        style: GoogleFonts.lexend(
+        style: GoogleFonts.ibmPlexSansThai(
           fontSize: 12, // matched to text-xs
           fontWeight: FontWeight.bold,
           color: color == Colors.white30
@@ -398,7 +397,7 @@ class MatchDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     'PRICE',
-                    style: GoogleFonts.lexend(
+                    style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -448,7 +447,7 @@ class MatchDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     'AMENITIES',
-                    style: GoogleFonts.lexend(
+                    style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -665,7 +664,7 @@ class MatchDetailsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Open',
-          style: GoogleFonts.lexend(
+          style: GoogleFonts.ibmPlexSansThai(
             fontSize: 12,
             color: isDark ? Colors.white54 : Colors.black54,
           ),
@@ -700,7 +699,7 @@ class MatchDetailsScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     "HOST'S NOTE",
-                    style: GoogleFonts.lexend(
+                    style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -768,7 +767,7 @@ class MatchDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Join Match',
-                        style: GoogleFonts.lexend(
+                        style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),

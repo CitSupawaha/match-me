@@ -119,7 +119,7 @@ class _QuickRecordResultScreenState
       centerTitle: true,
       title: Text(
         recordMatchLabel,
-        style: GoogleFonts.lexend(
+        style: GoogleFonts.ibmPlexSansThai(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
@@ -155,7 +155,7 @@ class _QuickRecordResultScreenState
             children: [
               Text(
                 label,
-                style: GoogleFonts.lexend(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: colorScheme.onSurface,
@@ -318,7 +318,7 @@ class _QuickRecordResultScreenState
                   children: [
                     Text(
                       isTeam1 ? team1Label : team2Label,
-                      style: GoogleFonts.lexend(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: colorScheme.onSurface,
@@ -496,7 +496,7 @@ class _QuickRecordResultScreenState
       child: Center(
         child: Text(
           'VS',
-          style: GoogleFonts.lexend(
+          style: GoogleFonts.ibmPlexSansThai(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: colorScheme.onSurface,
@@ -534,7 +534,7 @@ class _QuickRecordResultScreenState
           children: [
             Text(
               label,
-              style: GoogleFonts.lexend(
+              style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isDark ? Colors.black : Colors.white,

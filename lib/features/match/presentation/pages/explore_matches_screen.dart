@@ -53,7 +53,7 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
                   style: GoogleFonts.ibmPlexSansThai(
                     fontWeight: FontWeight.w900,
                     fontSize: 22,
-                    color: primaryColor,
+                    color: isDark ? Colors.white : Colors.black,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -191,9 +191,7 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const HostMatchScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const HostMatchScreen()),
                 );
               },
               backgroundColor: DesignTokens.accentLime,

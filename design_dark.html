@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Player Profile - Teerasak S.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .font-plex { font-family: 'IBM Plex Sans Thai', 'Lexend', sans-serif; }
+        .font-lexend { font-family: 'Lexend', sans-serif; }
+        body { font-family: 'IBM Plex Sans Thai', 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#CCFF00",
+                        "on-primary": "#131315",
+                        "primary-dim": "#a3cc00",
+                        "primary-container": "#2c3b00",
+                        "on-primary-container": "#d7ff33",
+                        "secondary": "#cafd00",
+                        "on-secondary": "#131315",
+                        "secondary-container": "#516700",
+                        "on-secondary-container": "#e1ff66",
+                        "tertiary": "#f9f5f8",
+                        "on-tertiary": "#131315",
+                        "tertiary-container": "#4a494a",
+                        "on-tertiary-container": "#ffffff",
+                        "surface": "#131315",
+                        "surface-dim": "#0a0a0b",
+                        "surface-bright": "#2c2c2f",
+                        "surface-container-lowest": "#050505",
+                        "surface-container-low": "#1c1c1e",
+                        "surface-container": "#232325",
+                        "surface-container-high": "#2c2c2f",
+                        "surface-container-highest": "#363639",
+                        "on-surface": "#f9f5f8",
+                        "on-surface-variant": "#adaaad",
+                        "outline": "#767578",
+                        "outline-variant": "#434244",
+                        "inverse-surface": "#f9f5f8",
+                        "inverse-on-surface": "#131315",
+                        "inverse-primary": "#516700",
+                        "background": "#131315",
+                        "on-background": "#f9f5f8",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1.5rem",
+                        "2xl": "1.75rem",
+                        "full": "9999px"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface font-plex text-on-surface antialiased pb-32">
+<nav class="fixed top-0 w-full z-50 bg-[#131315]/80 backdrop-blur-xl shadow-[0px_0px_40px_rgba(204,255,0,0.08)]">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="relative w-8 h-8 rounded-full border border-outline-variant overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy2ZFeJJNxkU1Z_uJmmCJulXo-WNIf52OFa1Pc3g2BURaqy9Szg3E4UDJVfXra7Pz1JfPneBBCCuF2YonF4z31BjEEmDe_6vD8L_Z744OjEO9HEHbcjS1gUaeT9ZHU868BDdZ1PnkI7s7v4Hrg2Poq_0lgUNAv3aGQnDXUyjMEH895h3rhZyeKBwv3ttkPKfILuYr-0hD5tGu_gTOA-RWiZHpWmAZQs-W7tbIr8UAhLqNAGhyv-FPycrRPpCJ1cYYtpLmXm52JTlk"/>
+</div>
+<h1 class="font-bold tracking-tighter uppercase text-xl text-[#CCFF00] font-lexend text-center flex-1">PRECISION COURT</h1>
+<span class="material-symbols-outlined text-[#CCFF00]">notifications</span>
+</div>
+</nav>
+<main class="max-w-screen-xl mx-auto px-6 pt-24 space-y-8">
+<section class="flex flex-col md:flex-row md:items-end gap-6 justify-start">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="absolute -inset-1.5 bg-primary rounded-full blur-md opacity-40"></div>
+<div class="relative w-24 h-24 rounded-full border-4 border-primary overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="portrait of badminton player" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy2ZFeJJNxkU1Z_uJmmCJulXo-WNIf52OFa1Pc3g2BURaqy9Szg3E4UDJVfXra7Pz1JfPneBBCCuF2YonF4z31BjEEmDe_6vD8L_Z744OjEO9HEHbcjS1gUaeT9ZHU868BDdZ1PnkI7s7v4Hrg2Poq_0lgUNAv3aGQnDXUyjMEH895h3rhZyeKBwv3ttkPKfILuYr-0hD5tGu_gTOA-RWiZHpWmAZQs-W7tbIr8UAhLqNAGhyv-FPycrRPpCJ1cYYtpLmXm52JTlk"/>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary-container text-on-primary-container text-[10px] font-black px-2 py-0.5 rounded-full border-2 border-surface uppercase tracking-tighter font-lexend">PRO</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<h2 class="text-3xl font-bold tracking-tight text-on-surface">Teerasak S.</h2>
+</div>
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">
+                        ระดับกลาง / Intermediate
+                    </div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-2 gap-4">
+<!-- Box 1: ELO Rating -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl flex flex-col justify-between aspect-[1.1] hover:border-primary/50 transition-colors">
+<div>
+<p class="text-on-surface-variant font-lexend text-[10px] font-bold uppercase tracking-widest mb-1">ELO RATING</p>
+<p class="text-4xl font-black text-on-surface font-lexend">1,420</p>
+</div>
+<div class="flex items-center gap-2 mt-4">
+<span class="text-xs font-bold text-primary font-lexend">+12 pts</span>
+<div class="flex items-end gap-1 h-3.5">
+<div class="w-1.5 h-[30%] bg-primary/30 rounded-full"></div>
+<div class="w-1.5 h-[50%] bg-primary/50 rounded-full"></div>
+<div class="w-1.5 h-[80%] bg-primary/80 rounded-full"></div>
+<div class="w-1.5 h-full bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Box 2: Win Rate -->
+<div class="bg-primary p-5 rounded-2xl text-on-primary flex flex-col justify-between aspect-[1.1] shadow-[0px_0px_20px_rgba(204,255,0,0.15)]">
+<div>
+<p class="text-on-primary/70 font-lexend text-[10px] font-bold uppercase tracking-widest mb-1">WIN RATE</p>
+<p class="text-4xl font-black font-lexend">68%</p>
+</div>
+<div class="mt-4">
+<span class="material-symbols-outlined text-on-primary text-xl">trending_up</span>
+</div>
+</div>
+<!-- Box 3: Total Matches -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl flex flex-col justify-between aspect-[1.1] hover:border-primary/50 transition-colors">
+<div>
+<p class="text-on-surface-variant font-lexend text-[10px] font-bold uppercase tracking-widest mb-1">TOTAL MATCHES</p>
+<p class="text-4xl font-black text-on-surface font-lexend">42</p>
+</div>
+<div class="mt-4">
+<p class="text-xs font-medium text-on-surface-variant">32 ชนะ / 10 แพ้</p>
+</div>
+</div>
+<!-- Box 4: Weekly Activity -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-5 rounded-2xl flex flex-col justify-between aspect-[1.1] hover:border-primary/50 transition-colors">
+<p class="text-on-surface-variant font-lexend text-[10px] font-bold uppercase tracking-widest mb-2">WEEKLY ACTIVITY</p>
+<div class="flex items-end gap-1.5 h-10 mb-2 mt-auto">
+<div class="w-2.5 rounded-full bg-primary/50 h-[40%]"></div>
+<div class="w-2.5 rounded-full bg-primary h-[80%]"></div>
+<div class="w-2.5 rounded-full bg-primary/50 h-[30%]"></div>
+<div class="w-2.5 rounded-full bg-primary h-[100%]"></div>
+<div class="w-2.5 rounded-full bg-primary h-[60%]"></div>
+<div class="w-2.5 rounded-full bg-outline-variant h-[20%]"></div>
+<div class="w-2.5 rounded-full bg-outline-variant h-[10%]"></div>
+</div>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant">14 ชั่วโมง สัปดาห์นี้</p>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-6">
+<h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+                    ประวัติการแข่งขัน
+                    <span class="h-px flex-1 bg-outline-variant"></span>
+</h3>
+<div class="space-y-4">
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-center justify-between border border-outline-variant/30 hover:border-primary/50 transition-all group">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 bg-surface rounded-full flex items-center justify-center border border-outline-variant group-hover:border-primary/30 transition-colors">
+<span class="material-symbols-outlined text-primary">sports_tennis</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Casual Match</h4>
+<div class="flex items-center gap-2 text-on-surface-variant text-xs mt-1 font-lexend">
+<span>Kinetic Central</span>
+<span>•</span>
+<span>24 Oct 2023</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-3 py-0.5 rounded-full bg-primary-container text-on-primary-container text-[10px] font-black uppercase font-lexend">WIN</span>
+<span class="text-primary font-bold text-xs font-lexend">+15 ELO</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-center justify-between border border-outline-variant/30 hover:border-primary/50 transition-all group">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 bg-surface rounded-full flex items-center justify-center border border-outline-variant group-hover:border-primary/30 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">emoji_events</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Ranked Match</h4>
+<div class="flex items-center gap-2 text-on-surface-variant text-xs mt-1 font-lexend">
+<span>Siam Arena</span>
+<span>•</span>
+<span>21 Oct 2023</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-3 py-0.5 rounded-full bg-error-container text-on-error-container text-[10px] font-black uppercase font-lexend">LOSS</span>
+<span class="text-error font-bold text-xs font-lexend">-8 ELO</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+                    การตั้งค่า
+                    <span class="h-px flex-1 bg-outline-variant"></span>
+</h3>
+<div class="bg-surface-container-low border border-outline-variant/30 p-2 rounded-2xl space-y-1">
+<button class="w-full flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-high transition-colors group text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">person_edit</span>
+<span class="text-sm font-medium">แก้ไขโปรไฟล์</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-high transition-colors group text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">card_membership</span>
+<span class="text-sm font-medium">การสมัครสมาชิก</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-high transition-colors group text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">notifications_active</span>
+<span class="text-sm font-medium">การแจ้งเตือน</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-high transition-colors group text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">help</span>
+<span class="text-sm font-medium">ความช่วยเหลือ</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+</div>
+<button class="w-full py-4 px-6 rounded-2xl font-bold text-error bg-error-container/20 hover:bg-error-container/30 transition-colors flex items-center justify-center gap-2 border border-error/20">
+<span class="material-symbols-outlined text-xl">logout</span>
+                    ออกจากระบบ
+                </button>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-0 w-full z-50 bg-[#131315]/80 backdrop-blur-xl rounded-t-2xl shadow-[0px_-4px_40px_rgba(204,255,0,0.05)]">
+<div class="flex justify-around items-center px-4 pb-6 pt-3 max-w-screen-xl mx-auto">
+<div class="flex flex-col items-center justify-center text-[#adaaad] hover:text-[#f9f5f8] px-4 py-1.5 rounded-lg transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-1">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaad] hover:text-[#f9f5f8] px-4 py-1.5 rounded-lg transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">sports_tennis</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-1">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#adaaad] hover:text-[#f9f5f8] px-4 py-1.5 rounded-lg transition-all duration-300 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-1">Host</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#cafd00] text-[#516700] rounded-lg px-4 py-1.5 transition-all duration-300 ease-in-out cursor-pointer shadow-[0_0_15px_rgba(202,253,0,0.3)]">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Lexend'] text-[10px] uppercase tracking-widest mt-1 font-bold">Profile</span>
+</div>
+</div>
+</footer>
+</body></html>

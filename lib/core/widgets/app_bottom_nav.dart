@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-enum NavTab { home, match, host, profile }
+enum NavTab { home, match, notifications, profile }
 
 class AppBottomNav extends StatelessWidget {
   final NavTab activeTab;
@@ -55,10 +55,10 @@ class AppBottomNav extends StatelessWidget {
           ),
           _buildNavItem(
             context,
-            tab: NavTab.host,
-            icon: Iconsax.add_circle_copy,
-            activeIcon: Iconsax.add_circle,
-            label: l10n.host,
+            tab: NavTab.notifications,
+            icon: Iconsax.notification_copy,
+            activeIcon: Iconsax.notification,
+            label: l10n.notifications,
             accentColor: accentColor,
             isDark: isDark,
           ),

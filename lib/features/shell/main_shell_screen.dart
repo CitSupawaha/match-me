@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:match_me/core/widgets/app_bottom_nav.dart';
 import 'package:match_me/features/home/presentation/pages/home_screen.dart';
 import 'package:match_me/features/match/presentation/pages/explore_matches_screen.dart';
+import 'package:match_me/features/notification/presentation/pages/notification_screen.dart';
+import 'package:match_me/features/profile/presentation/pages/profile_screen.dart';
 
 /// Provider to manage the current tab index across the app.
 final currentTabProvider = StateProvider<int>((ref) => 0);
@@ -13,7 +15,7 @@ class MainShellScreen extends ConsumerWidget {
   static const _tabs = [
     NavTab.home,
     NavTab.match,
-    NavTab.host,
+    NavTab.notifications,
     NavTab.profile,
   ];
 
@@ -27,10 +29,8 @@ class MainShellScreen extends ConsumerWidget {
         children: [
           const HomeScreen(),
           const ExploreMatchesScreen(),
-          // Host placeholder
-          const _PlaceholderTab(title: 'Host'),
-          // Profile placeholder
-          const _PlaceholderTab(title: 'Profile'),
+          const NotificationScreen(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: AppBottomNav(
@@ -44,18 +44,3 @@ class MainShellScreen extends ConsumerWidget {
   }
 }
 
-/// Placeholder widget for tabs not yet implemented.
-class _PlaceholderTab extends StatelessWidget {
-  final String title;
-  const _PlaceholderTab({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headlineMedium,
-      ),
-    );
-  }
-}

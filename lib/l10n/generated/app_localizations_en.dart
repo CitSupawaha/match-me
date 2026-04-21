@@ -72,6 +72,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get host => 'Host';
 
   @override
+  String get notifications => 'Notifications';
+
+  @override
   String get profile => 'Profile';
 
   @override

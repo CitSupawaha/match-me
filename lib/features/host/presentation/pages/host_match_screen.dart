@@ -871,7 +871,7 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
                           ),
                           child: Text(
                             'TOP',
-                            style: GoogleFonts.lexend(
+                            style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 8,
                               fontWeight: FontWeight.w900,
                               color: Colors.black,

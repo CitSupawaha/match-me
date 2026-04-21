@@ -72,6 +72,9 @@ class AppLocalizationsTh extends AppLocalizations {
   String get host => 'โฮสต์';
 
   @override
+  String get notifications => 'แจ้งเตือน';
+
+  @override
   String get profile => 'โปรไฟล์';
 
   @override

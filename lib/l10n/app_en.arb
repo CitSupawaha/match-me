@@ -21,6 +21,7 @@
   "activity": "Activity",
   "match": "Match",
   "host": "Host",
+  "notifications": "Notifications",
   "profile": "Profile",
   "matchResults": "Match Results",
   "game": "Game",

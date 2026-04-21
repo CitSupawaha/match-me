@@ -5,7 +5,8 @@ class ScoreboardState {
   final int scoreB;
   final int setsA;
   final int setsB;
-  final List<({int scoreA, int scoreB})> history;
+  final bool isPlayerAActive;
+  final List<({int scoreA, int scoreB, bool isPlayerAActive})> history;
   final bool isFinished;
 
   ScoreboardState({
@@ -13,6 +14,7 @@ class ScoreboardState {
     required this.scoreB,
     required this.setsA,
     required this.setsB,
+    required this.isPlayerAActive,
     required this.history,
     this.isFinished = false,
   });
@@ -22,7 +24,8 @@ class ScoreboardState {
     int? scoreB,
     int? setsA,
     int? setsB,
-    List<({int scoreA, int scoreB})>? history,
+    bool? isPlayerAActive,
+    List<({int scoreA, int scoreB, bool isPlayerAActive})>? history,
     bool? isFinished,
   }) {
     return ScoreboardState(
@@ -30,6 +33,7 @@ class ScoreboardState {
       scoreB: scoreB ?? this.scoreB,
       setsA: setsA ?? this.setsA,
       setsB: setsB ?? this.setsB,
+      isPlayerAActive: isPlayerAActive ?? this.isPlayerAActive,
       history: history ?? this.history,
       isFinished: isFinished ?? this.isFinished,
     );
@@ -41,6 +45,7 @@ class ScoreboardState {
       scoreB: 0,
       setsA: 0,
       setsB: 0,
+      isPlayerAActive: true, // Default to Player A starting
       history: [],
     );
   }
@@ -52,10 +57,17 @@ class ScoreboardNotifier extends Notifier<ScoreboardState> {
 
   void incrementScoreA() {
     if (state.isFinished) return;
-    final newHistory = List<({int scoreA, int scoreB})>.from(state.history)
-      ..add((scoreA: state.scoreA, scoreB: state.scoreB));
+    final newHistory =
+        List<({int scoreA, int scoreB, bool isPlayerAActive})>.from(
+          state.history,
+        )..add((
+          scoreA: state.scoreA,
+          scoreB: state.scoreB,
+          isPlayerAActive: state.isPlayerAActive,
+        ));
     state = state.copyWith(
       scoreA: state.scoreA + 1,
+      isPlayerAActive: true,
       history: newHistory,
     );
     _checkGameEnd();
@@ -63,10 +75,17 @@ class ScoreboardNotifier extends Notifier<ScoreboardState> {
 
   void incrementScoreB() {
     if (state.isFinished) return;
-    final newHistory = List<({int scoreA, int scoreB})>.from(state.history)
-      ..add((scoreA: state.scoreA, scoreB: state.scoreB));
+    final newHistory =
+        List<({int scoreA, int scoreB, bool isPlayerAActive})>.from(
+          state.history,
+        )..add((
+          scoreA: state.scoreA,
+          scoreB: state.scoreB,
+          isPlayerAActive: state.isPlayerAActive,
+        ));
     state = state.copyWith(
       scoreB: state.scoreB + 1,
+      isPlayerAActive: false,
       history: newHistory,
     );
     _checkGameEnd();
@@ -74,32 +93,41 @@ class ScoreboardNotifier extends Notifier<ScoreboardState> {
 
   void decrementScoreA() {
     if (state.scoreA <= 0 || state.isFinished) return;
-    final newHistory = List<({int scoreA, int scoreB})>.from(state.history)
-      ..add((scoreA: state.scoreA, scoreB: state.scoreB));
-    state = state.copyWith(
-      scoreA: state.scoreA - 1,
-      history: newHistory,
-    );
+    final newHistory =
+        List<({int scoreA, int scoreB, bool isPlayerAActive})>.from(
+          state.history,
+        )..add((
+          scoreA: state.scoreA,
+          scoreB: state.scoreB,
+          isPlayerAActive: state.isPlayerAActive,
+        ));
+    state = state.copyWith(scoreA: state.scoreA - 1, history: newHistory);
   }
 
   void decrementScoreB() {
     if (state.scoreB <= 0 || state.isFinished) return;
-    final newHistory = List<({int scoreA, int scoreB})>.from(state.history)
-      ..add((scoreA: state.scoreA, scoreB: state.scoreB));
-    state = state.copyWith(
-      scoreB: state.scoreB - 1,
-      history: newHistory,
-    );
+    final newHistory =
+        List<({int scoreA, int scoreB, bool isPlayerAActive})>.from(
+          state.history,
+        )..add((
+          scoreA: state.scoreA,
+          scoreB: state.scoreB,
+          isPlayerAActive: state.isPlayerAActive,
+        ));
+    state = state.copyWith(scoreB: state.scoreB - 1, history: newHistory);
   }
 
   void undo() {
     if (state.history.isEmpty) return;
     final last = state.history.last;
-    final newHistory = List<({int scoreA, int scoreB})>.from(state.history)
-      ..removeLast();
+    final newHistory =
+        List<({int scoreA, int scoreB, bool isPlayerAActive})>.from(
+          state.history,
+        )..removeLast();
     state = state.copyWith(
       scoreA: last.scoreA,
       scoreB: last.scoreB,
+      isPlayerAActive: last.isPlayerAActive,
       history: newHistory,
       isFinished: false,
     );
@@ -112,7 +140,8 @@ class ScoreboardNotifier extends Notifier<ScoreboardState> {
   void _checkGameEnd() {
     // Basic logic for 21 points, 2 points lead
     // This can be expanded to handle set wins
-    if ((state.scoreA >= 21 || state.scoreB >= 21) && (state.scoreA - state.scoreB).abs() >= 2) {
+    if ((state.scoreA >= 21 || state.scoreB >= 21) &&
+        (state.scoreA - state.scoreB).abs() >= 2) {
       // Game ended
       // For now, just mark as finished
       // Real logic would increment sets and reset scores
@@ -120,6 +149,7 @@ class ScoreboardNotifier extends Notifier<ScoreboardState> {
   }
 }
 
-final scoreboardProvider = NotifierProvider<ScoreboardNotifier, ScoreboardState>(() {
-  return ScoreboardNotifier();
-});
+final scoreboardProvider =
+    NotifierProvider<ScoreboardNotifier, ScoreboardState>(() {
+      return ScoreboardNotifier();
+    });
