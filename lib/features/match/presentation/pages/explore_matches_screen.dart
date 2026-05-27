@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/theme/design_tokens.dart';
 import '../../../../core/widgets/app_chip.dart';
 import '../../../../core/widgets/app_search_bar.dart';
@@ -10,6 +11,9 @@ import '../../../../l10n/generated/app_localizations.dart';
 import '../widgets/explore_match_card.dart';
 import '../../../host/presentation/pages/host_match_screen.dart';
 import 'match_details_screen.dart';
+import '../../../../core/utils/auth_interceptor.dart';
+import '../providers/match_provider.dart';
+import '../../data/match_model.dart';
 
 class ExploreMatchesScreen extends ConsumerStatefulWidget {
   const ExploreMatchesScreen({super.key});
@@ -31,6 +35,8 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
         ? DesignTokens.accentLime
         : DesignTokens.primary;
 
+    final matchesAsync = ref.watch(matchesProvider);
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: Stack(
@@ -51,7 +57,7 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
                 title: Text(
                   l10n.exploreMatches,
                   style: GoogleFonts.ibmPlexSansThai(
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                     fontSize: 22,
                     color: isDark ? Colors.white : Colors.black,
                     letterSpacing: -0.5,
@@ -106,78 +112,143 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
               ),
 
               // --- Match Card List ---
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 200),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    ExploreMatchCard(
-                      title: 'Velocity Open Singles',
-                      location: 'Skyline Badminton Club',
-                      time: '19:00 - 21:00',
-                      shuttleType: 'Yonex AS-30',
-                      price: 15,
-                      skillLevel: SkillLevel.advanced,
-                      playerAvatars: const [
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuARoQQj9ZrgHRExnwwNYjghVclFwyn2_PPAmJ8_wWwJM8g3lvOpyTJ9loQxOeCNcjBhn_RXaaZeyWrKmbTeF_vue03UE7S-uNdbvol6rTpwSaV80_KtXWKfgobVjg4fwpYs7BczKsm753TNvGMAvo72ZypgYVURAKffoNT7T-5nAuqEo1fWwdfxCgxxfT67Ho5JGrnjRKDtOI3UUo6WObbcGBj8iUFJWZPBHS2qb35pITAr0cOJtdcuziOR89DZCWtDLsBhK5XQE0k',
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuDuDS-eMvu7bkTi-euUKa7WGngim6QU8AAVS5ricUEr5A4II6R95FOrhXZqBNeZaGk-7NWbxwZGFzhJ1loKXEWnGPPGIzGwkVkc6KHEG-XKhXxNC-rcd2VanMY91i0ML88ZwGG0zVrgeQVRzUUhNpjs8o4_kOX7b64CN8pDUYohUOGUZea8w1P2DwWelmJw2zxcWaNlsoXFS7_PL5c0WMVXy5UcW55sgUwmfpWkaNcrizaSHzkML1BaLGkIo0g2INyQyRD54eTyjXA',
-                      ],
-                      extraPlayers: 2,
-                      onJoin: () {},
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MatchDetailsScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    ExploreMatchCard(
-                      title: 'Morning Rally Doubles',
-                      location: 'The Green Arena',
-                      time: '08:00 - 10:00',
-                      shuttleType: 'RSL No.1',
-                      price: 12,
-                      skillLevel: SkillLevel.intermediate,
-                      playerAvatars: const [
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuB5nr_eXuuKqbZo7VgDSjyxP5Xm6QDxDDbB1KVlToA360v6c8WpCcHrDapTBYHvIppcUDHirlvseXFB0EsCGB9_3H5k7UfW_u0z0T3wGou1siAWNSE26AXP50bR9_cH9akVAOPjalHftekMAsDhRS8bUgmeOdK94qVdjyzzANsMfgMfwyLxBqJpuFGned-PNurahp399mHU2WeOYDWkdCdZpJAM6rEzNIul7F3wB4yu2ric17VSme1n73nPbhPPigjgb8M45Of1ktk',
-                      ],
-                      onJoin: () {},
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MatchDetailsScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    ExploreMatchCard(
-                      title: 'Casual Sunday Smash',
-                      location: 'Downtown Community Hub',
-                      time: '16:00 - 18:00',
-                      shuttleType: 'Nylon Hybrid',
-                      price: 8,
-                      skillLevel: SkillLevel.beginner,
-                      playerAvatars: const [
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuCubJnoOqKxoqSY0L3TltHzL7MjZ4T7VSIS82EjIsbc5gI3JMPLgYg3Wr9iFlH_9GLK9PajQmzrZMe_waN50BfpdTtY4OhxV2mjaaLd4-au_ZzSiLTVTyL7wNZf8X9VjEZtP5zeKIdeP3SkWpFfQdmqANWbtGSKmrS8LLUR8fN0F-yiv0jdJZCIQreNRVMkXvNUuClKJNwfBqKWmMHeq3_D3ReJCzrBBm_qf7zBZVt3FJIqePIT2Sq5pzwUJUkjgCd2knTYAPZp_aE',
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuDc3Hvr4Hq0w85oReI-j6Ox8Cu-SL-dQ6X7qM43No4UeXiXOmeSIdXxC79tFXO7YxB8h8G4jm7XAhrpQIjffpbN4RkjbKaejE3bJk5YjltsLPh-SwUC4MUxygvqod1yDBNWhY_f4hr_Kr_XAlxzARtHHyz2zc5ei0YnT9Kwmhklu4xZXwql-BSRSDUjSq6p4eCXQ_Ndy1ii6zVny7XGuzxxLh3tEbFl_3oBHnEBuD--BTv5rRJPYQdMh13LE9Rr7-J2EQ6PphHEqd4',
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuB05UPZDfi-C0ZgRJvP-Al7ICAm08XY6JCoa1gxuK6uculLsLck5S7_HR-5sznVD3cUmGcQ4zEAuGBg7qNqbyLC5GJZRMD98gtTG0kQzvNa7rf56q2WXCOsW-8xsHBsIM_bo6DwOVWvtD0tOAfY8UBtH_jw-Po5B7UQAlSTp_t_3_guoD_4bQXGT1OFG00rYE3ClxIcr5-bGwewG6imaYfabSYbPBdx29--kb6TnuG6Vx9CLa6rM-3dTt80qmuFVoI0XzMcWrhbuIs',
-                      ],
-                      onJoin: () {},
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MatchDetailsScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  ]),
+              matchesAsync.when(
+                loading: () => const SliverFillRemaining(
+                  child: Center(child: CircularProgressIndicator()),
                 ),
+                error: (error, stack) => SliverFillRemaining(
+                  child: Center(
+                    child: Text(
+                      'Error: $error',
+                      style: GoogleFonts.ibmPlexSansThai(color: Colors.red),
+                    ),
+                  ),
+                ),
+                data: (matches) {
+                  if (matches.isEmpty) {
+                    return SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Iconsax.calendar_copy,
+                              size: 64,
+                              color: isDark ? Colors.white30 : Colors.black26,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'ยังไม่มีแมตช์การแข่งขันในขณะนี้',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? Colors.white60 : Colors.black54,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  return SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 200),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final match = matches[index];
+                          
+                          // Format Time
+                          final timeFormat = DateFormat('HH:mm');
+                          final dateFormat = DateFormat('d MMM');
+                          final startStr = timeFormat.format(match.dateTime);
+                          final endStr = timeFormat.format(match.dateTime.add(
+                            Duration(minutes: (match.durationHours * 60).toInt()),
+                          ));
+                          final timeStr = '${dateFormat.format(match.dateTime)}, $startStr - $endStr';
+
+                          // Collect participant avatars
+                          final List<String> avatars = [];
+                          if (match.participants != null) {
+                            for (var p in match.participants!) {
+                              if (p.playerProfile?.avatarUrl != null) {
+                                avatars.add(p.playerProfile!.avatarUrl!);
+                              }
+                            }
+                          }
+                          
+                          // If avatars is empty, fallback to host avatar if available
+                          if (avatars.isEmpty && match.hostProfile?.avatarUrl != null) {
+                            avatars.add(match.hostProfile!.avatarUrl!);
+                          }
+
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: ExploreMatchCard(
+                              title: match.title,
+                              location: match.court?.name ?? 'ไม่ระบุสนาม',
+                              time: timeStr,
+                              shuttleType: match.shuttlecockType ?? 'Standard',
+                              price: match.estimatedCost.toInt(),
+                              skillLevel: match.skillLevelEnum,
+                              playerAvatars: avatars,
+                              extraPlayers: match.totalSlots - match.availableSlots - avatars.length,
+                              onJoin: () {
+                                runWithAuth(context, ref, () async {
+                                  // Show progress loader dialog
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (_) => const Center(child: CircularProgressIndicator()),
+                                  );
+
+                                  final success = await ref
+                                      .read(matchServiceProvider)
+                                      .joinMatch(match.id);
+
+                                  if (context.mounted) {
+                                    Navigator.pop(context); // Pop loading dialog
+                                  }
+
+                                  if (success) {
+                                    ref.invalidate(matchesProvider);
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('เข้าร่วมแมตช์สำเร็จ!'),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('ไม่สามารถเข้าร่วมแมตช์ได้ หรือคุณเข้าร่วมอยู่แล้ว'),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                });
+                              },
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MatchDetailsScreen(matchId: match.id),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        childCount: matches.length,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -189,10 +260,12 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
             child: FloatingActionButton(
               heroTag: 'createMatch',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HostMatchScreen()),
-                );
+                runWithAuth(context, ref, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HostMatchScreen()),
+                  );
+                });
               },
               backgroundColor: DesignTokens.accentLime,
               foregroundColor: Colors.black,
@@ -230,3 +303,4 @@ class _ExploreMatchesScreenState extends ConsumerState<ExploreMatchesScreen> {
     );
   }
 }
+

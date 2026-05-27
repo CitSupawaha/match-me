@@ -11,6 +11,8 @@ import '../../../../core/widgets/app_chip.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/section_header.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../match/data/match_model.dart';
+import '../../../match/presentation/providers/match_provider.dart';
 
 class HostMatchScreen extends ConsumerStatefulWidget {
   const HostMatchScreen({super.key});
@@ -29,41 +31,9 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
   final _costController = TextEditingController(text: '450');
   final _noteController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now().add(const Duration(hours: 2));
-  _Court? _selectedCourt;
+  CourtModel? _selectedCourt;
   XFile? _selectedImage;
   final ImagePicker _picker = ImagePicker();
-
-  final List<_Court> _courts = [
-    _Court(
-      name: 'Kinetic Central',
-      location: 'ถนนพระราม 9, กรุงเทพฯ',
-      imageUrl:
-          'https://images.unsplash.com/photo-1599586120429-48281b6f0ece?q=80&w=2070&auto=format&fit=crop',
-      amenities: ['แอร์', 'ยางพารา'],
-      isTopRated: true,
-    ),
-    _Court(
-      name: 'Shuttle Hub',
-      location: 'ซอยสุขุมวิท 71, กรุงเทพฯ',
-      imageUrl:
-          'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?q=80&w=2070&auto=format&fit=crop',
-      amenities: ['ที่จอดรถ', 'พาร์เก้'],
-    ),
-    _Court(
-      name: 'Ace Arena',
-      location: 'ย่านหมอชิต, กรุงเทพฯ',
-      imageUrl:
-          'https://images.unsplash.com/photo-1613918431703-a4473852033c?q=80&w=2070&auto=format&fit=crop',
-      amenities: ['แอร์', 'ห้องน้ำ'],
-    ),
-    _Court(
-      name: 'Sky Court',
-      location: 'สีลม, กรุงเทพฯ',
-      imageUrl:
-          'https://images.unsplash.com/photo-1599474924187-334a4ae5bd3c?q=80&w=2070&auto=format&fit=crop',
-      amenities: ['ที่จอดรถ'],
-    ),
-  ];
 
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -224,7 +194,6 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
         ],
       ),
 
-      // --- Sticky CTA (uses same lime accent pattern) ---
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
         decoration: BoxDecoration(
@@ -239,7 +208,137 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
           ),
         ),
         child: ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () async {
+            if (_matchNameController.text.trim().isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('กรุณากรอกชื่อแมตช์')),
+              );
+              return;
+            }
+
+            if (_selectedCourt == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('กรุณาเลือกสนามแข่งขัน')),
+              );
+              return;
+            }
+
+            final skillLevels = ['Beginner', 'Intermediate', 'Advanced'];
+            final selectedSkillLevel = skillLevels[_selectedSkill];
+
+            final shuttleTypes = ['RSL Silver', 'RSL Tourney', 'Yonex'];
+            final selectedShuttleType = shuttleTypes[_selectedShuttle];
+
+            final amenitiesList = _selectedAmenities.map((id) {
+              switch (id) {
+                case 1:
+                  return 'แอร์';
+                case 2:
+                  return 'พัดลม';
+                case 3:
+                  return 'ยางพารา';
+                case 4:
+                  return 'ไม้';
+                default:
+                  return '';
+              }
+            }).where((e) => e.isNotEmpty).toList();
+
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext dialogContext) {
+                return PopScope(
+                  canPop: false,
+                  child: Container(
+                    color: Colors.black.withOpacity(0.7),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.accentLime),
+                          ),
+                          const SizedBox(height: 20),
+                          DefaultTextStyle(
+                            style: GoogleFonts.ibmPlexSansThai(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                            child: const Text('กำลังสร้างแมตช์และอัปโหลดรูปภาพ...'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+
+            try {
+              String? uploadedImageUrl;
+              if (_selectedImage != null) {
+                uploadedImageUrl = await ref.read(matchServiceProvider).uploadMatchImage(
+                  filePath: _selectedImage!.path,
+                );
+              }
+
+              final newMatch = await ref.read(matchServiceProvider).createMatch(
+                title: _matchNameController.text.trim(),
+                courtId: _selectedCourt?.id,
+                dateTime: _selectedDateTime,
+                durationHours: _selectedDuration,
+                skillLevel: selectedSkillLevel,
+                totalSlots: _availableSlots + 1,
+                shuttlecockType: selectedShuttleType,
+                estimatedCost: double.tryParse(_costController.text.trim()) ?? 0.0,
+                amenities: amenitiesList,
+                hostsNote: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+                imageUrl: uploadedImageUrl,
+              );
+
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
+
+              if (newMatch != null) {
+                ref.invalidate(matchesProvider);
+                
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('สร้างแมตช์สำเร็จ!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
+              } else {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('เกิดข้อผิดพลาดในการสร้างแมตช์'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            } catch (e) {
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: isDark
                 ? DesignTokens.accentLime
@@ -597,9 +696,9 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
             children: [
               // Map placeholder
               Positioned.fill(
-                child: _selectedCourt != null
+                child: _selectedCourt != null && _selectedCourt!.imageUrl != null
                     ? Image.network(
-                        _selectedCourt!.imageUrl,
+                        _selectedCourt!.imageUrl!,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Container(
                           color: isDark
@@ -746,6 +845,8 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
     Color primaryColor,
     AppLocalizations l10n,
   ) {
+    final courtsAsync = ref.read(courtsProvider);
+
     _showStyledBottomSheet(
       title: 'เลือกสนาม',
       onDone: () {},
@@ -783,12 +884,21 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
           // Court List
           SizedBox(
             height: 400,
-            child: ListView.separated(
-              itemCount: _courts.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final court = _courts[index];
-                return _buildCourtItem(court, isDark, primaryColor);
+            child: courtsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stack) => Center(child: Text('Error: $error')),
+              data: (courts) {
+                if (courts.isEmpty) {
+                  return const Center(child: Text('ไม่พบข้อมูลสนาม'));
+                }
+                return ListView.separated(
+                  itemCount: courts.length,
+                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final court = courts[index];
+                    return _buildCourtItem(court, isDark, primaryColor);
+                  },
+                );
               },
             ),
           ),
@@ -797,8 +907,8 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
     );
   }
 
-  Widget _buildCourtItem(_Court court, bool isDark, Color primaryColor) {
-    final isSelected = _selectedCourt?.name == court.name;
+  Widget _buildCourtItem(CourtModel court, bool isDark, Color primaryColor) {
+    final isSelected = _selectedCourt?.id == court.id;
 
     return GestureDetector(
       onTap: () {
@@ -823,22 +933,33 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
             // Court Image
             ClipRRect(
               borderRadius: BorderRadius.circular(DesignTokens.borderRadiusMd),
-              child: Image.network(
-                court.imageUrl,
-                width: 70,
-                height: 70,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 70,
-                  height: 70,
-                  color: isDark ? DesignTokens.darkSurface : Colors.black12,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    size: 20,
-                    color: Colors.white24,
-                  ),
-                ),
-              ),
+              child: court.imageUrl != null
+                  ? Image.network(
+                      court.imageUrl!,
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 70,
+                        height: 70,
+                        color: isDark ? DesignTokens.darkSurface : Colors.black12,
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 20,
+                          color: Colors.white24,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 70,
+                      height: 70,
+                      color: isDark ? DesignTokens.darkSurface : Colors.black12,
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        size: 20,
+                        color: Colors.white24,
+                      ),
+                    ),
             ),
             const SizedBox(width: 16),
             // Details
@@ -980,13 +1101,13 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
     // Selected image state
     return Stack(
       children: [
-        Container(
-          width: double.infinity,
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DesignTokens.borderRadiusMd),
-            image: DecorationImage(
-              image: FileImage(File(_selectedImage!.path)),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(DesignTokens.borderRadiusMd),
+          child: SizedBox(
+            width: double.infinity,
+            height: 200,
+            child: Image.file(
+              File(_selectedImage!.path),
               fit: BoxFit.cover,
             ),
           ),
@@ -1296,20 +1417,4 @@ class _HostMatchScreenState extends ConsumerState<HostMatchScreen> {
       }).toList(),
     );
   }
-}
-
-class _Court {
-  final String name;
-  final String location;
-  final String imageUrl;
-  final List<String> amenities;
-  final bool isTopRated;
-
-  _Court({
-    required this.name,
-    required this.location,
-    required this.imageUrl,
-    required this.amenities,
-    this.isTopRated = false,
-  });
 }

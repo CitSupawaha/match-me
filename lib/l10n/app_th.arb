@@ -49,6 +49,7 @@
   "friendsPlaying": "+{count} เพื่อนของคุณกำลังเล่น",
   "startInMinutes": "เริ่มในอีก {count} นาที",
   "comparedToLastMonth": "เทียบกับเดือนก่อน {value}",
+  "yourPerformance": "ผลงานของคุณ",
   "exploreMatches": "ค้นหาแมตช์",
   "searchCourtsOrClubs": "ค้นหาสนามหรือคลับ...",
   "today": "วันนี้",

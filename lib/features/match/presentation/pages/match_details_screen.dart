@@ -3,12 +3,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'dart:ui';
 import 'dart:math' as import_math;
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/theme/design_tokens.dart';
+import '../../../../core/utils/auth_interceptor.dart';
 import 'match_results_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../data/match_model.dart';
+import '../providers/match_provider.dart';
 
-class MatchDetailsScreen extends StatelessWidget {
-  const MatchDetailsScreen({super.key});
+class MatchDetailsScreen extends ConsumerStatefulWidget {
+  final String matchId;
+  const MatchDetailsScreen({super.key, required this.matchId});
+
+  @override
+  ConsumerState<MatchDetailsScreen> createState() => _MatchDetailsScreenState();
+}
+
+class _MatchDetailsScreenState extends ConsumerState<MatchDetailsScreen> {
+  bool _isJoining = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,45 +33,96 @@ class MatchDetailsScreen extends StatelessWidget {
         ? DesignTokens.accentLime
         : DesignTokens.primary;
 
-    return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          _buildSliverAppBar(context, isDark, colorScheme, primaryColor),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                _buildHeroImage(context, isDark),
-                Transform.translate(
-                  offset: const Offset(0, -32),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildTitleCard(context, isDark, primaryColor),
-                        const SizedBox(height: 32),
-                        _buildLogisticsSection(context, isDark, primaryColor),
-                        const SizedBox(height: 32),
-                        _buildHighlightsGrid(context, isDark, primaryColor),
-                        const SizedBox(height: 32),
-                        _buildSquadSection(context, isDark, primaryColor),
-                        const SizedBox(height: 32),
-                        _buildHostNote(context, isDark, primaryColor),
-                        const SizedBox(
-                          height: 120,
-                        ), // Padding for sticky bottom button
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    final matchAsync = ref.watch(matchDetailsProvider(widget.matchId));
+
+    return matchAsync.when(
+      loading: () => Scaffold(
+        backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Iconsax.arrow_left_copy, color: isDark ? Colors.white : Colors.black),
+            onPressed: () => Navigator.pop(context),
           ),
-        ],
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
-      bottomNavigationBar: _buildStickyBottomBar(context, isDark, primaryColor),
+      error: (err, stack) => Scaffold(
+        backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Iconsax.arrow_left_copy, color: isDark ? Colors.white : Colors.black),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: Center(
+          child: Text('เกิดข้อผิดพลาดในการโหลดข้อมูล: $err'),
+        ),
+      ),
+      data: (match) {
+        if (match == null) {
+          return Scaffold(
+            backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(Iconsax.arrow_left_copy, color: isDark ? Colors.white : Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            body: const Center(
+              child: Text('ไม่พบข้อมูลแมตช์นี้'),
+            ),
+          );
+        }
+
+        return Scaffold(
+          backgroundColor: isDark ? const Color(0xFF131315) : colorScheme.surface,
+          body: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              _buildSliverAppBar(context, isDark, colorScheme, primaryColor),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    _buildHeroImage(context, isDark, match),
+                    Transform.translate(
+                      offset: const Offset(0, -32),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildTitleCard(context, isDark, primaryColor, match),
+                            const SizedBox(height: 32),
+                            _buildLogisticsSection(context, isDark, primaryColor, match),
+                            const SizedBox(height: 32),
+                            _buildHighlightsGrid(context, isDark, primaryColor, match),
+                            const SizedBox(height: 32),
+                            _buildSquadSection(context, isDark, primaryColor, match),
+                            const SizedBox(height: 32),
+                            _buildHostNote(context, isDark, primaryColor, match),
+                            const SizedBox(
+                              height: 120,
+                            ), // Padding for sticky bottom button
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: _buildStickyBottomBar(context, isDark, primaryColor, match),
+        );
+      },
     );
   }
 
@@ -76,7 +142,7 @@ class MatchDetailsScreen extends StatelessWidget {
       leading: IconButton(
         icon: Icon(
           Iconsax.arrow_left_copy,
-          color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
+          color: isDark ? Colors.white : Colors.black,
         ),
         onPressed: () => Navigator.pop(context),
       ),
@@ -103,7 +169,11 @@ class MatchDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroImage(BuildContext context, bool isDark) {
+  Widget _buildHeroImage(BuildContext context, bool isDark, MatchModel match) {
+    final currentUserId = Supabase.instance.client.auth.currentUser?.id;
+    final isHost = currentUserId == match.hostId;
+    final matchImageUrl = match.imageUrl ?? match.court?.imageUrl;
+
     return SizedBox(
       height: 350,
       width: double.infinity,
@@ -111,8 +181,25 @@ class MatchDetailsScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.network(
-            'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?q=80&w=2670&auto=format&fit=crop',
+            matchImageUrl ?? 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?q=80&w=2670&auto=format&fit=crop',
             fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: isDark ? DesignTokens.darkSurface : const Color(0xFFD1D5D7),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.accentLime),
+                  ),
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) => Container(
+              color: isDark ? DesignTokens.darkSurface : const Color(0xFFD1D5D7),
+              child: const Center(
+                child: Icon(Iconsax.image_copy, color: Colors.white24, size: 48),
+              ),
+            ),
           ),
           // Gradient Overlay
           DecoratedBox(
@@ -130,6 +217,21 @@ class MatchDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
+          // Edit Match Image overlay for Host
+          if (isHost)
+            Positioned(
+              bottom: 48,
+              right: 24,
+              child: Material(
+                color: Colors.black.withOpacity(0.6),
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: IconButton(
+                  icon: const Icon(Icons.camera_alt, color: Colors.white, size: 24),
+                  onPressed: () => _pickAndUploadImage(context, match.id),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -142,6 +244,7 @@ class MatchDetailsScreen extends StatelessWidget {
     BuildContext context,
     bool isDark,
     Color primaryColor,
+    MatchModel match,
   ) {
     return Container(
       padding: const EdgeInsets.all(24),
@@ -165,7 +268,7 @@ class MatchDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Casual Match - 24 May',
+            match.title,
             style: GoogleFonts.ibmPlexSansThai(
               fontSize: 24, // matched to text-3xl
               fontWeight: FontWeight.bold,
@@ -179,15 +282,16 @@ class MatchDetailsScreen extends StatelessWidget {
             runSpacing: 8,
             children: [
               _buildTag(
-                text: 'INTERMEDIATE',
+                text: match.skillLevel,
                 color: primaryColor,
                 isDark: isDark,
               ),
-              _buildTag(
-                text: 'RSL SILVER',
-                color: isDark ? Colors.white30 : Colors.black26,
-                isDark: isDark,
-              ),
+              if (match.shuttlecockType != null && match.shuttlecockType!.isNotEmpty)
+                _buildTag(
+                  text: match.shuttlecockType!,
+                  color: isDark ? Colors.white30 : Colors.black26,
+                  isDark: isDark,
+                ),
             ],
           ),
           const SizedBox(height: 16),
@@ -248,19 +352,30 @@ class MatchDetailsScreen extends StatelessWidget {
     BuildContext context,
     bool isDark,
     Color primaryColor,
+    MatchModel match,
   ) {
+    final dateStr = DateFormat('d MMM yyyy').format(match.dateTime);
+    
+    final timeFormat = DateFormat('HH:mm');
+    final startTime = timeFormat.format(match.dateTime);
+    final endTime = timeFormat.format(match.dateTime.add(Duration(minutes: (match.durationHours * 60).toInt())));
+    final durationStr = match.durationHours % 1 == 0 
+        ? '${match.durationHours.toInt()} ชม.' 
+        : '${match.durationHours} ชม.';
+    final timeStr = '$startTime - $endTime ($durationStr)';
+
     return Column(
       children: [
         _buildLogisticRow(
           icon: Iconsax.calendar_1_copy,
-          title: '24 พ.ค. 2567',
+          title: dateStr,
           isDark: isDark,
           primaryColor: primaryColor,
         ),
         const SizedBox(height: 20),
         _buildLogisticRow(
           icon: Iconsax.clock_copy,
-          title: '18:00 - 20:00 (2 ชม.)',
+          title: timeStr,
           isDark: isDark,
           primaryColor: primaryColor,
           isSubtitle: true,
@@ -268,8 +383,8 @@ class MatchDetailsScreen extends StatelessWidget {
         const SizedBox(height: 20),
         _buildLogisticRow(
           icon: Iconsax.location_copy,
-          title: 'Kinetic Central (คอร์ท 4)',
-          subtitle: 'Bangkok, Thailand',
+          title: match.court?.name ?? 'ไม่ระบุคอร์ท',
+          subtitle: match.court?.location ?? 'ไม่ระบุสถานที่',
           isDark: isDark,
           primaryColor: primaryColor,
           actionText: 'ดูแผนที่',
@@ -378,7 +493,46 @@ class MatchDetailsScreen extends StatelessWidget {
     BuildContext context,
     bool isDark,
     Color primaryColor,
+    MatchModel match,
   ) {
+    final priceStr = match.estimatedCost % 1 == 0 
+        ? match.estimatedCost.toInt().toString() 
+        : match.estimatedCost.toString();
+
+    final List<Widget> amenityWidgets = [];
+    final items = match.amenities.isNotEmpty ? match.amenities : (match.court?.amenities ?? []);
+    for (final amenity in items) {
+      IconData icon = Icons.check_circle_outline;
+      String label = amenity;
+      final lower = amenity.toLowerCase();
+      if (lower.contains('air') || lower.contains('แอร์')) {
+        icon = Icons.ac_unit;
+        label = 'แอร์';
+      } else if (lower.contains('rubber') || lower.contains('ยาง')) {
+        icon = Icons.layers;
+        label = 'พื้นยาง';
+      } else if (lower.contains('park') || lower.contains('จอด')) {
+        icon = Icons.local_parking;
+        label = 'ที่จอดรถ';
+      } else if (lower.contains('shower') || lower.contains('อาบ') || lower.contains('น้ำ')) {
+        icon = Icons.shower;
+        label = 'ห้องน้ำ';
+      }
+      amenityWidgets.add(_buildAmenityIcon(icon, label, isDark));
+    }
+    if (amenityWidgets.isEmpty) {
+      amenityWidgets.add(Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Text(
+          'ไม่มีบริการพิเศษ', 
+          style: GoogleFonts.ibmPlexSansThai(
+            fontSize: 12, 
+            color: isDark ? Colors.white30 : Colors.black26,
+          ),
+        ),
+      ));
+    }
+
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -410,7 +564,7 @@ class MatchDetailsScreen extends StatelessWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        '150',
+                        priceStr,
                         style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -455,12 +609,10 @@ class MatchDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      _buildAmenityIcon(Icons.ac_unit, 'แอร์', isDark),
-                      const SizedBox(width: 20),
-                      _buildAmenityIcon(Icons.layers, 'พื้นยาง', isDark),
-                    ],
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 8,
+                    children: amenityWidgets,
                   ),
                 ],
               ),
@@ -492,6 +644,7 @@ class MatchDetailsScreen extends StatelessWidget {
     BuildContext context,
     bool isDark,
     Color primaryColor,
+    MatchModel match,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,22 +660,40 @@ class MatchDetailsScreen extends StatelessWidget {
                 color: isDark ? Colors.white : Colors.black87,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.red.withOpacity(0.3)),
-              ),
-              child: Text(
-                'เหลือที่เดียว!',
-                style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red.shade400,
+            if (match.availableSlots == 0)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                ),
+                child: Text(
+                  'เต็มแล้ว',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+              )
+            else
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: (match.availableSlots == 1 ? Colors.red : Colors.green).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: (match.availableSlots == 1 ? Colors.red : Colors.green).withOpacity(0.3)),
+                ),
+                child: Text(
+                  match.availableSlots == 1 ? 'เหลือที่เดียว!' : 'เหลือ ${match.availableSlots} ที่',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: match.availableSlots == 1 ? Colors.red.shade400 : Colors.green.shade400,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -531,44 +702,49 @@ class MatchDetailsScreen extends StatelessWidget {
           runSpacing: 24,
           clipBehavior: Clip.none,
           children: [
-            _buildSquadPlayer(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop',
-              name: 'Marcus',
-              isHost: true,
-              primaryColor: primaryColor,
-              isDark: isDark,
+            ...?(match.participants?.map((participant) {
+              final profile = participant.playerProfile;
+              final isHost = participant.playerId == match.hostId;
+              final name = profile?.fullName ?? profile?.username ?? 'ผู้เล่น';
+              final avatar = profile?.avatarUrl;
+              return _buildSquadPlayer(
+                imageUrl: avatar,
+                name: name,
+                isHost: isHost,
+                primaryColor: primaryColor,
+                isDark: isDark,
+              );
+            })),
+            // Fill the rest with empty slots up to totalSlots
+            ...List.generate(
+              import_math.max(0, match.totalSlots - (match.participants?.length ?? 0)),
+              (index) => _buildEmptySquadSlot(isDark),
             ),
-            _buildSquadPlayer(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop',
-              name: 'Lina',
-              isDark: isDark,
-              primaryColor: primaryColor,
-            ),
-            _buildSquadPlayer(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
-              name: 'Tom',
-              isDark: isDark,
-              primaryColor: primaryColor,
-            ),
-            _buildSquadPlayer(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-              name: 'Jane',
-              isDark: isDark,
-              primaryColor: primaryColor,
-            ),
-            _buildEmptySquadSlot(isDark),
           ],
         ),
       ],
     );
   }
 
+  Widget _buildAvatarPlaceholder(String name, bool isDark) {
+    final initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+    return Container(
+      color: isDark ? const Color(0xFF2C2C2E) : Colors.grey.shade200,
+      child: Center(
+        child: Text(
+          initial,
+          style: GoogleFonts.ibmPlexSansThai(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white70 : Colors.black54,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildSquadPlayer({
-    required String imageUrl,
+    required String? imageUrl,
     required String name,
     bool isHost = false,
     required Color primaryColor,
@@ -591,33 +767,16 @@ class MatchDetailsScreen extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32),
-                child: Image.network(imageUrl, fit: BoxFit.cover),
+                child: imageUrl != null && imageUrl.isNotEmpty
+                    ? Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            _buildAvatarPlaceholder(name, isDark),
+                      )
+                    : _buildAvatarPlaceholder(name, isDark),
               ),
             ),
-            if (!isHost)
-              Positioned(
-                top: -4,
-                right: -4,
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 4,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 14,
-                  ), // matched sizes
-                ),
-              ),
           ],
         ),
         const SizedBox(height: 8),
@@ -673,7 +832,16 @@ class MatchDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHostNote(BuildContext context, bool isDark, Color primaryColor) {
+  Widget _buildHostNote(
+    BuildContext context,
+    bool isDark,
+    Color primaryColor,
+    MatchModel match,
+  ) {
+    if (match.hostsNote == null || match.hostsNote!.trim().isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1C1C1E) : Colors.white,
@@ -710,7 +878,7 @@ class MatchDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'ตีชิลๆ เน้นออกกำลังกาย ไม่ซีเรียสครับ',
+                match.hostsNote!,
                 style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 15,
                   height: 1.5,
@@ -724,11 +892,162 @@ class MatchDetailsScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _executeCancelMatch(BuildContext context, MatchModel match) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    setState(() {
+      _isJoining = true;
+    });
+    try {
+      final success = await ref.read(matchServiceProvider).cancelMatch(match.id);
+      if (success) {
+        ref.invalidate(matchesProvider);
+        if (mounted) {
+          messenger.showSnackBar(
+            const SnackBar(content: Text('ยกเลิกแมตช์สำเร็จ!')),
+          );
+          navigator.pop(); // Go back to explore matches
+        }
+      } else {
+        if (mounted) {
+          messenger.showSnackBar(
+            const SnackBar(content: Text('เกิดข้อผิดพลาดในการยกเลิกแมตช์')),
+          );
+        }
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isJoining = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _pickAndUploadImage(BuildContext context, String matchId) async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    if (!context.mounted) return;
+
+    // Show full-screen loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        final isDark = Theme.of(dialogContext).brightness == Brightness.dark;
+        return PopScope(
+          canPop: false,
+          child: Container(
+            color: Colors.black.withOpacity(0.7),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.accentLime),
+                  ),
+                  const SizedBox(height: 20),
+                  DefaultTextStyle(
+                    style: GoogleFonts.ibmPlexSansThai(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.none,
+                    ),
+                    child: const Text('กำลังอัปโหลดรูปภาพ...'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    final messenger = ScaffoldMessenger.of(context);
+    final matchService = ref.read(matchServiceProvider);
+
+    try {
+      // 1. Upload to Supabase Storage
+      final publicUrl = await matchService.uploadMatchImage(filePath: image.path);
+      if (publicUrl == null) {
+        throw Exception('Failed to upload image to storage');
+      }
+
+      // 2. Update image_url in matches table
+      final success = await matchService.updateMatchImageUrl(
+        matchId: matchId,
+        imageUrl: publicUrl,
+      );
+
+      if (!success) {
+        throw Exception('Failed to update match image URL in database');
+      }
+
+      // 3. Invalidate/Refresh matches
+      ref.invalidate(matchDetailsProvider(matchId));
+      ref.invalidate(matchesProvider);
+
+      if (mounted) {
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text('อัปโหลดรูปภาพสำเร็จ!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text('เกิดข้อผิดพลาดในการอัปโหลด: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      // Close full-screen loading dialog
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
   Widget _buildStickyBottomBar(
     BuildContext context,
     bool isDark,
     Color primaryColor,
+    MatchModel match,
   ) {
+    final currentUserId = Supabase.instance.client.auth.currentUser?.id;
+    final isAlreadyJoined = match.participants?.any((p) => p.playerId == currentUserId) ?? false;
+    final isHost = currentUserId == match.hostId;
+    final isFull = match.availableSlots <= 0;
+
+    String buttonText = 'Join Match';
+    String? subtitleText = '(${match.estimatedCost.toInt()} THB เก็บที่สนาม)';
+    IconData? icon = Icons.bolt;
+    bool isEnabled = true;
+
+    if (isHost) {
+      buttonText = 'ยกเลิกแมตช์';
+      subtitleText = null;
+      icon = null;
+      isEnabled = true;
+    } else if (isAlreadyJoined) {
+      buttonText = 'เข้าร่วมแล้ว';
+      subtitleText = null;
+      icon = Icons.check_circle;
+      isEnabled = false;
+    } else if (isFull) {
+      buttonText = 'แมตช์เต็มแล้ว';
+      subtitleText = null;
+      icon = Icons.block;
+      isEnabled = false;
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: (isDark ? const Color(0xFF131315) : colorScheme(context).surface)
@@ -747,10 +1066,99 @@ class MatchDetailsScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: !isEnabled || _isJoining
+                  ? null
+                  : () {
+                      if (isHost) {
+                        showDialog(
+                          context: context,
+                          builder: (dialogContext) => AlertDialog(
+                            backgroundColor: isDark ? const Color(0xFF1C1C1E) : Colors.white,
+                            title: Text(
+                              'ยกเลิกแมตช์',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? Colors.white : Colors.black,
+                              ),
+                            ),
+                            content: Text(
+                              'คุณแน่ใจหรือไม่ว่าต้องการยกเลิกแมตช์นี้? การดำเนินการนี้ไม่สามารถย้อนกลับได้',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                color: isDark ? Colors.white70 : Colors.black87,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(dialogContext),
+                                child: Text(
+                                  'ยกเลิก',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    color: isDark ? Colors.white60 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(dialogContext); // Close dialog
+                                  _executeCancelMatch(context, match);
+                                },
+                                child: Text(
+                                  'ยืนยันยกเลิก',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        runWithAuth(context, ref, () async {
+                          final messenger = ScaffoldMessenger.of(context);
+                          setState(() {
+                            _isJoining = true;
+                          });
+                          try {
+                            final success = await ref.read(matchServiceProvider).joinMatch(match.id);
+                            if (success) {
+                              // Refresh match details
+                              ref.invalidate(matchDetailsProvider(match.id));
+                              // Also refresh matches list in explore
+                              ref.invalidate(matchesProvider);
+                              if (mounted) {
+                                messenger.showSnackBar(
+                                  const SnackBar(content: Text('เข้าร่วมแมตช์สำเร็จ!')),
+                                );
+                              }
+                            } else {
+                              if (mounted) {
+                                messenger.showSnackBar(
+                                  const SnackBar(content: Text('เกิดข้อผิดพลาดในการเข้าร่วมแมตช์')),
+                                );
+                              }
+                            }
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                _isJoining = false;
+                              });
+                            }
+                          }
+                        });
+                      }
+                    },
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                foregroundColor: isDark ? Colors.black : Colors.white,
+                backgroundColor: isHost
+                    ? Colors.red.shade600
+                    : (isEnabled
+                        ? primaryColor
+                        : (isDark ? Colors.white12 : Colors.grey.shade300)),
+                foregroundColor: isHost
+                    ? Colors.white
+                    : (isEnabled
+                        ? (isDark ? Colors.black : Colors.white)
+                        : (isDark ? Colors.white30 : Colors.black38)),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
@@ -759,36 +1167,46 @@ class MatchDetailsScreen extends StatelessWidget {
                 ),
                 elevation: 0,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Join Match',
-                        style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              child: _isJoining
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              buttonText,
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (icon != null) ...[
+                              const SizedBox(width: 8),
+                              Icon(icon, size: 22),
+                            ],
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.bolt, size: 22),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '(150 THB เก็บที่สนาม)',
-                    style: GoogleFonts.ibmPlexSansThai(
-                      fontSize: 10, // matched to text-[10px]
-                      fontWeight: FontWeight.w500,
-                      color: (isDark ? Colors.black : Colors.white).withOpacity(
-                        0.8,
-                      ),
+                        if (subtitleText != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            subtitleText,
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: (isDark ? Colors.black : Colors.white).withOpacity(
+                                0.8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
-                  ),
-                ],
-              ),
             ),
           ),
         ),

@@ -10,6 +10,7 @@ class RecommendedMatchItem extends StatelessWidget {
   final int spotsLeft;
   final bool isUrgent;
   final String? imageUrl;
+  final VoidCallback? onJoin;
 
   const RecommendedMatchItem({
     super.key,
@@ -19,6 +20,7 @@ class RecommendedMatchItem extends StatelessWidget {
     required this.spotsLeft,
     this.isUrgent = false,
     this.imageUrl,
+    this.onJoin,
   });
 
   @override
@@ -170,7 +172,7 @@ class RecommendedMatchItem extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: onJoin,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryColor,
                       side: BorderSide(color: primaryColor),

@@ -112,7 +112,7 @@ class _QuickRecordResultScreenState
       leading: IconButton(
         icon: Icon(
           Iconsax.arrow_left_copy,
-          color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
+          color: isDark ? Colors.white : Colors.black,
         ),
         onPressed: () => Navigator.pop(context),
       ),
@@ -122,7 +122,7 @@ class _QuickRecordResultScreenState
         style: GoogleFonts.ibmPlexSansThai(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
+          color: isDark ? Colors.white : Colors.black,
         ),
       ),
       actions: [

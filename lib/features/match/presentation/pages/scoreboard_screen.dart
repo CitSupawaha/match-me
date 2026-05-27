@@ -59,7 +59,7 @@ class ScoreboardScreen extends ConsumerWidget {
       leading: IconButton(
         icon: Icon(
           Iconsax.arrow_left_copy,
-          color: isDark ? colorScheme.secondaryContainer : colorScheme.primary,
+          color: isDark ? Colors.white : Colors.black,
         ),
         onPressed: () => Navigator.pop(context),
       ),
@@ -67,22 +67,13 @@ class ScoreboardScreen extends ConsumerWidget {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Iconsax.flash_copy,
-            color: isDark
-                ? colorScheme.secondaryContainer
-                : colorScheme.primary,
-            size: 24,
-          ),
           const SizedBox(width: 8),
           Text(
             'PRECISION COURT',
             style: GoogleFonts.ibmPlexSansThai(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-              color: isDark
-                  ? colorScheme.secondaryContainer
-                  : colorScheme.primary,
+              color: isDark ? Colors.white : Colors.black,
               letterSpacing: -0.5,
             ),
           ),
@@ -346,7 +337,12 @@ class ScoreboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAvatar(bool isPlayer1, bool isActive, Color accentColor, bool isDark) {
+  Widget _buildAvatar(
+    bool isPlayer1,
+    bool isActive,
+    Color accentColor,
+    bool isDark,
+  ) {
     final playerAccent = isActive
         ? accentColor
         : (isDark ? const Color(0xFF2C2C2F) : const Color(0xFFE0E0E0));

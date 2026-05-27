@@ -10,6 +10,10 @@ import '../widgets/hero_match_card.dart';
 import '../widgets/stat_metric_card.dart';
 import '../widgets/recommended_match_item.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/utils/auth_interceptor.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../profile/presentation/providers/profile_provider.dart';
+
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -21,6 +25,8 @@ class HomeScreen extends ConsumerWidget {
     final currentLocale = ref.watch(localeProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colorScheme = Theme.of(context).colorScheme;
+    final user = ref.watch(currentUserProvider);
+    final profile = ref.watch(userProfileProvider).valueOrNull;
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -41,47 +47,58 @@ class HomeScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 12),
-                  SectionHeader(title: l10n.yourNextMatch),
+                  SectionHeader(
+                    title: l10n.yourNextMatch,
+                    onViewAll: () {},
+                  ),
                   const SizedBox(height: 12),
-                  const HeroMatchCard(
+                  HeroMatchCard(
                     title: 'ท้าดวลคู่มือโปร',
                     location: 'Smash It Arena, Sukhumvit',
                     time: 'Today, 19:00 - 21:00',
+                    onTap: () {
+                      runWithAuth(context, ref, () {
+                        // TODO: Navigate to details
+                        print('Hero match tapped');
+                      });
+                    },
                   ),
                   const SizedBox(height: 16),
-                  SectionHeader(title: l10n.performance),
-                  GridView.count(
-                    padding: const EdgeInsets.only(top: 16),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 1.35,
-                    children: [
-                      StatMetricCard(
-                        label: l10n.eloScore,
-                        value: '1,420',
-                        trend: l10n.weekTrend('+12'),
-                        icon: Iconsax.trend_up_copy,
-                        color: colorScheme.secondaryContainer,
-                      ),
-                      StatMetricCard(
-                        label: l10n.played,
-                        value: '6.5',
-                        subtitle: l10n.hoursPerWeek,
-                        icon: Iconsax.clock_copy,
-                      ),
-                      StatMetricCard(
-                        label: l10n.winRate,
-                        value: '68%',
-                        progress: 0.68,
-                        color: colorScheme.secondaryContainer,
-                      ),
-                      StatMetricCard(label: l10n.playFrequency, isChart: true),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
+                  if (user != null) ...[
+                    SectionHeader(title: l10n.performance),
+                    GridView.count(
+                      padding: const EdgeInsets.only(top: 16),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 1.35,
+                      children: [
+                        StatMetricCard(
+                          label: l10n.eloScore,
+                          value: profile != null ? profile.eloRating.toString() : '1200',
+                          trend: profile != null ? l10n.weekTrend(profile.eloTrend) : l10n.weekTrend('+0'),
+                          icon: Iconsax.trend_up_copy,
+                          color: colorScheme.secondaryContainer,
+                        ),
+                        StatMetricCard(
+                          label: l10n.played,
+                          value: profile != null ? profile.totalMatches.toString() : '0',
+                          subtitle: l10n.match,
+                          icon: Iconsax.clock_copy,
+                        ),
+                        StatMetricCard(
+                          label: l10n.winRate,
+                          value: profile != null ? '${(profile.winRate).toStringAsFixed(0)}%' : '0%',
+                          progress: profile != null ? profile.winRate / 100 : 0.0,
+                          color: colorScheme.secondaryContainer,
+                        ),
+                        StatMetricCard(label: l10n.playFrequency, isChart: true),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   SectionHeader(title: l10n.courtsNearby, onViewAll: () {}),
                   const SizedBox(height: 16),
                   const CourtMapCard(),
@@ -107,6 +124,11 @@ class HomeScreen extends ConsumerWidget {
                             location: 'The Court Rama 9',
                             imageUrl:
                                 'https://lh3.googleusercontent.com/aida-public/AB6AXuAojd--ZsWCBmSyfTgGMYjG7SoC_UCKmSnD4bMuFh61S11WSddvrYA4hEZ2tFRWLnTCD0CzX41bgxUrrN8_ezCr22mWPKcKKwPI2GzlXzaikWqF3khM3JWU_FbP8XdXAHJjfZov_YQRLzi2iXfxRTxxsHn_QPkfK_ywyxInp14Ddu_nxs68GzkmI7LLoiE9KC0I1W9CJQN8qByyDNe0Sze6XuFxjW_nzwWFuDohuC61N-IHycusIxtf4rlK7NWEV0aWWKNlI6_lzSI',
+                            onJoin: () {
+                              runWithAuth(context, ref, () {
+                                print('Join match 1');
+                              });
+                            },
                           ),
                           RecommendedMatchItem(
                             title: '${l10n.match} (Chill)',
@@ -116,6 +138,11 @@ class HomeScreen extends ConsumerWidget {
                             isUrgent: true,
                             imageUrl:
                                 'https://lh3.googleusercontent.com/aida-public/AB6AXuB_E84ekX3j7aXgbM8MUEGYQBFdChHgU-HvtW5zbxL14fguiN7Vsr1X-7PObJcMLgs0l7bIPbnMHiAW4_xMIKbVXLNgqBbSBTLFVb_oaOHUhwKPeRlNwBCNnYZUA8dgR-mA-D4cSpvps5LkSurGpIuXDw3bP32KlKePZt9VrcjSN260jHDnZnRGOR0uQIEtn7sBS48dxmg8L9utrkMyUvMms8cqOn-QwNR8DdIEUzoALDvxbf_BY5UGPAawlO6r1Q7u0ylEfruLRv8',
+                            onJoin: () {
+                              runWithAuth(context, ref, () {
+                                print('Join match 2');
+                              });
+                            },
                           ),
                           RecommendedMatchItem(
                             title: 'Buffet 3 hrs',
@@ -124,6 +151,11 @@ class HomeScreen extends ConsumerWidget {
                             location: 'Court Town',
                             imageUrl:
                                 'https://lh3.googleusercontent.com/aida-public/AB6AXuDmCuSUG_ix3ROMnKfF7JXdjUhghyws-sWJrMMW2vbByKYlY8skBvIJSBThIOjVy5vdI2FylsIfbNFSnR3P2HsLp0Svf69Y62SBXnQcm5YiwAVJweSBdPL5uMdq4F0HxNQiSgS9U-JCU8HsbFewBuEihrZ8VblIVn359h-Z0lnYHcqR1es1gG_e1891DeqWOgfJ35uYX6Gc8y4LYixIjIQbTboGE6_7zwLgF119xaz5-IjU-aKA1D2tMjJOsikAhM6uGbENggcMwyo',
+                            onJoin: () {
+                              runWithAuth(context, ref, () {
+                                print('Join match 3');
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -147,6 +179,8 @@ class HomeScreen extends ConsumerWidget {
     bool isDark,
     WidgetRef ref,
   ) {
+    final user = ref.watch(currentUserProvider);
+    final profile = ref.watch(userProfileProvider).valueOrNull;
     return SliverAppBar(
       expandedHeight: 80.0,
       floating: true,
@@ -173,15 +207,23 @@ class HomeScreen extends ConsumerWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuDnS9svwuxx5vcJqapl1eD38owU9-UivOFqq8SGUfZ7k26Ai193jGGkB6iiRlKMK0FE8xLneWCqSY-AVBbdjOjZi-bBozrzeROZp5jLDV6gswre-lVgooP8f9MmaJzfTgNBtO58aXtR9LaPxdUmXKx-lebdWFBTgsf4F-1mSkOfRBn1h36X1dXtOVU0lfYzaglC4zBo-snRS101h2yGBhGoPmac1CKYQ1jVx4EMn08UbSluRhw5mjGSujH_dbNl965jTxd8SYXISMI',
-                  ),
-                  fit: BoxFit.cover,
-                ),
+                color: isDark ? Colors.white12 : Colors.black12,
+                image: profile?.highResAvatarUrl != null && profile!.highResAvatarUrl!.isNotEmpty
+                    ? DecorationImage(
+                        image: NetworkImage(profile.highResAvatarUrl!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
+              child: profile?.highResAvatarUrl == null || profile!.highResAvatarUrl!.isEmpty
+                  ? Icon(
+                      Iconsax.user_copy,
+                      size: 20,
+                      color: isDark ? Colors.white70 : Colors.black54,
+                    )
+                  : null,
             ),
             const SizedBox(width: 12),
             Column(
@@ -189,7 +231,9 @@ class HomeScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.greeting,
+                  user == null
+                      ? 'Hi, Guest'
+                      : 'Hi, ${profile?.fullName ?? user.email?.split('@').first ?? 'Player'}',
                   style: GoogleFonts.ibmPlexSansThai(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,

@@ -163,7 +163,7 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get yourPerformance => 'Your Performance';
+  String get yourPerformance => 'ผลงานของคุณ';
 
   @override
   String comparedToLastMonth(Object value) {

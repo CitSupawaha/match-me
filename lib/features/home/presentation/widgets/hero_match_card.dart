@@ -11,12 +11,14 @@ class HeroMatchCard extends StatelessWidget {
   final String title;
   final String? location;
   final String? time;
+  final VoidCallback? onTap;
 
   const HeroMatchCard({
     super.key,
     required this.title,
     this.location,
     this.time,
+    this.onTap,
   });
 
   @override
@@ -153,7 +155,7 @@ class HeroMatchCard extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: onTap,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: isDark
                                   ? DesignTokens.darkSurface

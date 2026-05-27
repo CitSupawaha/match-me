@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../../../core/utils/auth_interceptor.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../auth/presentation/widgets/login_bottom_sheet.dart';
+import '../../data/profile_model.dart';
+import '../providers/profile_provider.dart';
+
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -11,6 +18,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
+    final user = ref.watch(currentUserProvider);
+    final profile = ref.watch(userProfileProvider).valueOrNull;
 
     // Stitch Colors
     final primaryColor = isDark
@@ -29,43 +38,47 @@ class ProfileScreen extends ConsumerWidget {
           ? const Color(0xFF131315)
           : const Color(0xFFf5f6f7),
       appBar: _buildAppBar(context, isDark, primaryColor, l10n),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildProfileIntro(context, isDark, primaryColor, secondaryFixed),
-              const SizedBox(height: 32),
-              _buildStatsGrid(
-                context,
-                isDark,
-                primaryColor,
-                onPrimaryColor,
-                surfaceContainer,
-                l10n,
+      body: user == null
+          ? _buildGuestView(context, isDark, primaryColor)
+          : SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildProfileIntro(context, ref, isDark, primaryColor, secondaryFixed, profile, user.email),
+                    const SizedBox(height: 32),
+                    _buildStatsGrid(
+                      context,
+                      isDark,
+                      primaryColor,
+                      onPrimaryColor,
+                      surfaceContainer,
+                      l10n,
+                      profile,
+                    ),
+                    const SizedBox(height: 32),
+                    _buildSectionTitle(l10n.matchResults, isDark),
+                    const SizedBox(height: 16),
+                    _buildMatchHistory(context, isDark, primaryColor),
+                    const SizedBox(height: 32),
+                    _buildSectionTitle('การตั้งค่า', isDark),
+                    const SizedBox(height: 16),
+                    _buildSettingsMenu(
+                      context,
+                      isDark,
+                      primaryColor,
+                      surfaceContainer,
+                      ref,
+                    ),
+                    const SizedBox(height: 24),
+                    _buildLogoutButton(context, isDark, ref),
+                    const SizedBox(height: 100), // Bottom nav space
+                  ],
+                ),
               ),
-              const SizedBox(height: 32),
-              _buildSectionTitle(l10n.matchResults, isDark),
-              const SizedBox(height: 16),
-              _buildMatchHistory(context, isDark, primaryColor),
-              const SizedBox(height: 32),
-              _buildSectionTitle('การตั้งค่า', isDark),
-              const SizedBox(height: 16),
-              _buildSettingsMenu(
-                context,
-                isDark,
-                primaryColor,
-                surfaceContainer,
-              ),
-              const SizedBox(height: 24),
-              _buildLogoutButton(context, isDark),
-              const SizedBox(height: 100), // Bottom nav space
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -105,9 +118,12 @@ class ProfileScreen extends ConsumerWidget {
 
   Widget _buildProfileIntro(
     BuildContext context,
+    WidgetRef ref,
     bool isDark,
     Color primaryColor,
     Color secondaryFixed,
+    Profile? profile,
+    String? email,
   ) {
     return Row(
       children: [
@@ -118,61 +134,91 @@ class ProfileScreen extends ConsumerWidget {
             Container(
               width: 104,
               height: 104,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: (isDark ? primaryColor : secondaryFixed).withOpacity(
-                      0.4,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+            ),
+            // Avatar with edit action
+            GestureDetector(
+              onTap: () {
+                if (profile != null) {
+                  _updateProfilePicture(context, ref, profile.id);
+                }
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    width: 96,
+                    height: 96,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isDark ? primaryColor : secondaryFixed,
+                        width: 4,
+                      ),
+                      color: isDark ? Colors.white12 : Colors.black12,
+                      image: profile?.highResAvatarUrl != null && profile!.highResAvatarUrl!.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage(profile.highResAvatarUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    blurRadius: 12,
-                    spreadRadius: 2,
+                    child: profile?.highResAvatarUrl == null || profile!.highResAvatarUrl!.isEmpty
+                        ? Icon(
+                            Iconsax.user_copy,
+                            size: 40,
+                            color: isDark ? Colors.white70 : Colors.black54,
+                          )
+                        : null,
+                  ),
+                  // Camera overlay badge
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: isDark ? primaryColor : const Color(0xFF006a3c),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isDark ? const Color(0xFF131315) : Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        Iconsax.camera_copy,
+                        size: 14,
+                        color: isDark ? const Color(0xFF131315) : Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-            // Avatar
-            Container(
-              width: 96,
-              height: 96,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isDark ? primaryColor : secondaryFixed,
-                  width: 4,
-                ),
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuAy2ZFeJJNxkU1Z_uJmmCJulXo-WNIf52OFa1Pc3g2BURaqy9Szg3E4UDJVfXra7Pz1JfPneBBCCuF2YonF4z31BjEEmDe_6vD8L_Z744OjEO9HEHbcjS1gUaeT9ZHU868BDdZ1PnkI7s7v4Hrg2Poq_0lgUNAv3aGQnDXUyjMEH895h3rhZyeKBwv3ttkPKfILuYr-0hD5tGu_gTOA-RWiZHpWmAZQs-W7tbIr8UAhLqNAGhyv-FPycrRPpCJ1cYYtpLmXm52JTlk',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
             // PRO Badge
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF2c3b00) : primaryColor,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: isDark ? const Color(0xFF131315) : Colors.white,
-                    width: 2,
+            if (profile?.isPro == true)
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF2c3b00) : primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isDark ? const Color(0xFF131315) : Colors.white,
+                      width: 2,
+                    ),
                   ),
-                ),
-                child: Text(
-                  'PRO',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w900,
-                    color: isDark ? const Color(0xFFd7ff33) : Colors.white,
+                  child: Text(
+                    'PRO',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w900,
+                      color: isDark ? const Color(0xFFd7ff33) : Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
         const SizedBox(width: 24),
@@ -181,7 +227,7 @@ class ProfileScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Teerasak S.',
+                profile?.fullName ?? email?.split('@').first ?? 'Player',
                 style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
@@ -204,7 +250,9 @@ class ProfileScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  'ระดับกลาง / Intermediate',
+                  profile != null
+                      ? '${_getSkillLevelThai(profile.skillLevel)} / ${profile.skillLevel}'
+                      : 'ระดับเริ่มต้น / Beginner',
                   style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -228,11 +276,17 @@ class ProfileScreen extends ConsumerWidget {
     Color onPrimaryColor,
     Color surfaceContainer,
     AppLocalizations l10n,
+    Profile? profile,
   ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         const double gridSpacing = 12.0;
         final boxSize = (constraints.maxWidth - gridSpacing) / 2;
+        final winRateFraction = (profile?.winRate ?? 0.0) / 100.0;
+        final totalMatches = profile?.totalMatches ?? 0;
+        final winCount = (totalMatches * winRateFraction).round();
+        final lossCount = totalMatches - winCount;
+
         return Wrap(
           spacing: gridSpacing,
           runSpacing: gridSpacing,
@@ -241,13 +295,13 @@ class ProfileScreen extends ConsumerWidget {
             _buildStatBox(
               isDark,
               'ELO RATING',
-              '1,420',
+              profile != null ? profile.eloRating.toString() : '1200',
               boxSize,
               surfaceContainer,
               bottomWidget: Row(
                 children: [
                   Text(
-                    '+12 pts',
+                    '${profile?.eloTrend ?? "+0"} pts',
                     style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -263,7 +317,7 @@ class ProfileScreen extends ConsumerWidget {
             _buildStatBox(
               isDark,
               'WIN RATE',
-              '68%',
+              profile != null ? '${(profile.winRate).toStringAsFixed(0)}%' : '0%',
               boxSize,
               primaryColor,
               isHighlighted: true,
@@ -278,11 +332,11 @@ class ProfileScreen extends ConsumerWidget {
             _buildStatBox(
               isDark,
               'TOTAL MATCHES',
-              '42',
+              profile != null ? profile.totalMatches.toString() : '0',
               boxSize,
               surfaceContainer,
               bottomWidget: Text(
-                '32 ชนะ / 10 แพ้',
+                '$winCount ชนะ / $lossCount แพ้',
                 style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -605,6 +659,7 @@ class ProfileScreen extends ConsumerWidget {
     bool isDark,
     Color primary,
     Color surfaceContainer,
+    WidgetRef ref,
   ) {
     final settings = [
       {'icon': Iconsax.user_edit_copy, 'label': 'แก้ไขโปรไฟล์'},
@@ -642,7 +697,11 @@ class ProfileScreen extends ConsumerWidget {
                   size: 20,
                   color: isDark ? Colors.white24 : Colors.black12,
                 ),
-                onTap: () {},
+                onTap: () {
+                  runWithAuth(context, ref, () {
+                    // TODO: Implement settings navigation
+                  });
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
@@ -653,11 +712,13 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLogoutButton(BuildContext context, bool isDark) {
+  Widget _buildLogoutButton(BuildContext context, bool isDark, WidgetRef ref) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          _showLogoutConfirmationDialog(context, isDark, ref);
+        },
         icon: const Icon(Iconsax.logout_copy, size: 18),
         label: const Text('ออกจากระบบ'),
         style: ElevatedButton.styleFrom(
@@ -680,5 +741,305 @@ class ProfileScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void _showLogoutConfirmationDialog(BuildContext context, bool isDark, WidgetRef ref) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return const SizedBox.shrink();
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        final curve = CurvedAnimation(parent: anim1, curve: Curves.easeOutBack);
+        return ScaleTransition(
+          scale: curve,
+          child: FadeTransition(
+            opacity: anim1,
+            child: AlertDialog(
+              backgroundColor: isDark ? const Color(0xFF1C1C1E) : Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+                side: BorderSide(
+                  color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.04),
+                  width: 1,
+                ),
+              ),
+              contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Beautiful Circular Danger Icon
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Iconsax.logout_copy,
+                      color: Colors.red,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'ออกจากระบบ?',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ? สถิติและการแมตช์ของคุณจะถูกเก็บรักษาไว้อย่างปลอดภัย',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 13,
+                      color: isDark ? Colors.white54 : Colors.black54,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      // Cancel Button
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            side: BorderSide(
+                              color: isDark ? Colors.white10 : Colors.black12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: Text(
+                            'ยกเลิก',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isDark ? Colors.white70 : Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // Confirm Sign Out Button
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            ref.read(authServiceProvider).signOut();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: Text(
+                            'ออกจากระบบ',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildGuestView(BuildContext context, bool isDark, Color primaryColor) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1c1c1e) : const Color(0xFFeff1f2),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Iconsax.user_copy,
+                size: 40,
+                color: isDark ? Colors.white24 : Colors.black26,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Join the Court',
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Sign in to track your stats, join matches, and connect with other players.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 14,
+                color: isDark ? Colors.white54 : Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  LoginBottomSheet.show(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: isDark ? const Color(0xFF131315) : Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text(
+                  'LOGIN / SIGN UP',
+                  style: GoogleFonts.lexend(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _getSkillLevelThai(String skillLevel) {
+    switch (skillLevel.toLowerCase()) {
+      case 'beginner':
+        return 'ระดับเริ่มต้น';
+      case 'intermediate':
+        return 'ระดับกลาง';
+      case 'advanced':
+        return 'ระดับสูง';
+      default:
+        return 'ระดับเริ่มต้น';
+    }
+  }
+
+  Future<void> _updateProfilePicture(BuildContext context, WidgetRef ref, String userId) async {
+    final picker = ImagePicker();
+    
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Iconsax.gallery_copy),
+              title: const Text('เลือกจากแกลเลอรี (Gallery)'),
+              onTap: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Iconsax.camera_copy),
+              title: const Text('ถ่ายภาพ (Camera)'),
+              onTap: () => Navigator.pop(context, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
+    try {
+      final image = await picker.pickImage(
+        source: source,
+        maxWidth: 600,
+        maxHeight: 600,
+        imageQuality: 85,
+      );
+
+      if (image == null) return;
+
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      final profileService = ref.read(profileServiceProvider);
+      final publicUrl = await profileService.uploadAvatar(
+        userId: userId,
+        filePath: image.path,
+      );
+
+      if (publicUrl != null) {
+        await profileService.updateProfile(
+          userId: userId,
+          avatarUrl: publicUrl,
+        );
+
+        if (context.mounted) {
+          Navigator.pop(context); // Dismiss loading dialog
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('อัปเดตรูปโปรไฟล์สำเร็จเรียบร้อยแล้ว'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      } else {
+        if (context.mounted) {
+          Navigator.pop(context); // Dismiss loading dialog
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context); // Dismiss loading dialog
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('เกิดข้อผิดพลาด: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }
