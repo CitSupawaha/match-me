@@ -13,6 +13,7 @@ import '../../../../l10n/generated/app_localizations.dart';
 import '../../../../core/utils/auth_interceptor.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../profile/presentation/providers/profile_provider.dart';
+import '../../../shell/main_shell_screen.dart';
 
 
 class HomeScreen extends ConsumerWidget {
@@ -46,23 +47,118 @@ class HomeScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 12),
+                   const SizedBox(height: 12),
                   SectionHeader(
                     title: l10n.yourNextMatch,
-                    onViewAll: () {},
+                    onViewAll: user != null ? () {} : null,
                   ),
                   const SizedBox(height: 12),
-                  HeroMatchCard(
-                    title: 'ท้าดวลคู่มือโปร',
-                    location: 'Smash It Arena, Sukhumvit',
-                    time: 'Today, 19:00 - 21:00',
-                    onTap: () {
-                      runWithAuth(context, ref, () {
-                        // TODO: Navigate to details
-                        print('Hero match tapped');
-                      });
-                    },
-                  ),
+                  if (user != null)
+                    HeroMatchCard(
+                      title: 'ท้าดวลคู่มือโปร',
+                      location: 'Smash It Arena, Sukhumvit',
+                      time: 'Today, 19:00 - 21:00',
+                      onTap: () {
+                        runWithAuth(context, ref, () {
+                          // TODO: Navigate to details
+                          print('Hero match tapped');
+                        });
+                      },
+                    )
+                  else
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF1C1C1E) : const Color(0xFFF2F4F5),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: (isDark ? const Color(0xFF2C2C2F) : const Color(0xFFE0E3E4)).withOpacity(0.3),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Iconsax.calendar_copy,
+                                color: isDark ? DesignTokens.accentLime : DesignTokens.primary,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                l10n.noUpcomingMatches,
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: isDark ? Colors.white : const Color(0xFF1A1C1D),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.guestNextMatchSubtitle,
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 12,
+                              color: isDark ? const Color(0xFFA2ABAE) : const Color(0xFF595C5D),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    ref.read(currentTabProvider.notifier).state = 1; // Switch to Explore
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: isDark ? Colors.white : Colors.black,
+                                    side: BorderSide(
+                                      color: isDark ? const Color(0xFF2C2C2F) : const Color(0xFFE0E3E4),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: Text(
+                                    l10n.exploreMatchesBtn,
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () => runWithAuth(context, ref, () {}),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: isDark ? DesignTokens.accentLime : DesignTokens.primary,
+                                    foregroundColor: isDark ? Colors.black : Colors.white,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  child: Text(
+                                    l10n.signInOrSignUp,
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   const SizedBox(height: 16),
                   if (user != null) ...[
                     SectionHeader(title: l10n.performance),
@@ -96,6 +192,92 @@ class HomeScreen extends ConsumerWidget {
                         ),
                         StatMetricCard(label: l10n.playFrequency, isChart: true),
                       ],
+                    ),
+                    const SizedBox(height: 16),
+                  ] else ...[
+                    SectionHeader(title: l10n.performance),
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: isDark
+                              ? [
+                                  const Color(0xFF1C1C1E),
+                                  const Color(0xFF131315),
+                                ]
+                              : [
+                                  const Color(0xFFF2F4F5),
+                                  Colors.white,
+                                ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: (isDark ? const Color(0xFF2C2C2F) : const Color(0xFFE0E3E4)).withOpacity(0.5),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: (isDark ? DesignTokens.accentLime : DesignTokens.primary).withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Iconsax.security_user_copy,
+                              color: isDark ? DesignTokens.accentLime : DesignTokens.primary,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            l10n.unlockPerformance,
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: isDark ? Colors.white : const Color(0xFF1A1C1D),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.guestPerformanceSubtitle,
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 12,
+                              color: isDark ? const Color(0xFFA2ABAE) : const Color(0xFF595C5D),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: () => runWithAuth(context, ref, () {}),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isDark ? DesignTokens.accentLime : DesignTokens.primary,
+                                foregroundColor: isDark ? Colors.black : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                l10n.signInOrSignUp,
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 16),
                   ],

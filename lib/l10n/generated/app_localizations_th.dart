@@ -310,4 +310,35 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get matchType => 'ประเภทการแข่ง';
+
+  @override
+  String get unlockPerformance => 'ปลดล็อกการบันทึกผลงานของคุณ';
+
+  @override
+  String get guestPerformanceSubtitle =>
+      'เข้าสู่ระบบเพื่อบันทึกคะแนน ELO, จำนวนแมตช์ที่เล่น, อัตราการชนะ และวิเคราะห์รายละเอียดอย่างละเอียด';
+
+  @override
+  String get signInOrSignUp => 'เข้าสู่ระบบ / สมัครสมาชิก';
+
+  @override
+  String get noUpcomingMatches => 'ไม่มีแมตช์ถัดไป';
+
+  @override
+  String get guestNextMatchSubtitle =>
+      'เข้าสู่ระบบเพื่อดูตารางเวลาของคุณ หรือค้นหาแมตช์ที่เปิดอยู่รอบตัวคุณ';
+
+  @override
+  String get exploreMatchesBtn => 'ค้นหาแมตช์';
+
+  @override
+  String get guestNotificationsSubtitle =>
+      'เข้าสู่ระบบเพื่อดูข่าวสารอัปเดตเกี่ยวกับแมตช์ของคุณ คำเชิญ และผลการแข่งขัน';
+
+  @override
+  String get joinTheCourt => 'เข้าร่วมสนาม';
+
+  @override
+  String get guestProfileSubtitle =>
+      'เข้าสู่ระบบเพื่อติดตามสถิติของคุณ เข้าร่วมแมตช์ และเชื่อมต่อกับผู้เล่นคนอื่นๆ';
 }

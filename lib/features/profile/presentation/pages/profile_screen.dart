@@ -869,6 +869,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildGuestView(BuildContext context, bool isDark, Color primaryColor) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -890,7 +891,7 @@ class ProfileScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Join the Court',
+              l10n.joinTheCourt,
               style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -899,7 +900,7 @@ class ProfileScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Sign in to track your stats, join matches, and connect with other players.',
+              l10n.guestProfileSubtitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 14,
@@ -922,11 +923,13 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  'LOGIN / SIGN UP',
-                  style: GoogleFonts.lexend(
+                  Localizations.localeOf(context).languageCode == 'th'
+                      ? l10n.signInOrSignUp
+                      : l10n.signInOrSignUp.toUpperCase(),
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+                    letterSpacing: Localizations.localeOf(context).languageCode == 'th' ? null : 1.2,
                   ),
                 ),
               ),

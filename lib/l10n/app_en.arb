@@ -96,5 +96,14 @@
   "selectPlayer": "Select Player...",
   "team1": "Team 1",
   "team2": "Team 2",
-  "matchType": "Match Type"
+  "matchType": "Match Type",
+  "unlockPerformance": "Unlock Performance Tracking",
+  "guestPerformanceSubtitle": "Sign in to track your ELO rating, games played, win rate, and view detailed insights.",
+  "signInOrSignUp": "Sign In / Sign Up",
+  "noUpcomingMatches": "No upcoming matches",
+  "guestNextMatchSubtitle": "Sign in to see your schedule, or explore open matches near you.",
+  "exploreMatchesBtn": "Explore Matches",
+  "guestNotificationsSubtitle": "Sign in to see updates about your matches, invitations, and results.",
+  "joinTheCourt": "Join the Court",
+  "guestProfileSubtitle": "Sign in to track your stats, join matches, and connect with other players."
 }

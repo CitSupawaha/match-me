@@ -679,6 +679,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Match Type'**
   String get matchType;
+
+  /// No description provided for @unlockPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Performance Tracking'**
+  String get unlockPerformance;
+
+  /// No description provided for @guestPerformanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to track your ELO rating, games played, win rate, and view detailed insights.'**
+  String get guestPerformanceSubtitle;
+
+  /// No description provided for @signInOrSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In / Sign Up'**
+  String get signInOrSignUp;
+
+  /// No description provided for @noUpcomingMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming matches'**
+  String get noUpcomingMatches;
+
+  /// No description provided for @guestNextMatchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see your schedule, or explore open matches near you.'**
+  String get guestNextMatchSubtitle;
+
+  /// No description provided for @exploreMatchesBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Matches'**
+  String get exploreMatchesBtn;
+
+  /// No description provided for @guestNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see updates about your matches, invitations, and results.'**
+  String get guestNotificationsSubtitle;
+
+  /// No description provided for @joinTheCourt.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Court'**
+  String get joinTheCourt;
+
+  /// No description provided for @guestProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to track your stats, join matches, and connect with other players.'**
+  String get guestProfileSubtitle;
 }
 
 class _AppLocalizationsDelegate

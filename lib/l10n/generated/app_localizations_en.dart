@@ -311,4 +311,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matchType => 'Match Type';
+
+  @override
+  String get unlockPerformance => 'Unlock Performance Tracking';
+
+  @override
+  String get guestPerformanceSubtitle =>
+      'Sign in to track your ELO rating, games played, win rate, and view detailed insights.';
+
+  @override
+  String get signInOrSignUp => 'Sign In / Sign Up';
+
+  @override
+  String get noUpcomingMatches => 'No upcoming matches';
+
+  @override
+  String get guestNextMatchSubtitle =>
+      'Sign in to see your schedule, or explore open matches near you.';
+
+  @override
+  String get exploreMatchesBtn => 'Explore Matches';
+
+  @override
+  String get guestNotificationsSubtitle =>
+      'Sign in to see updates about your matches, invitations, and results.';
+
+  @override
+  String get joinTheCourt => 'Join the Court';
+
+  @override
+  String get guestProfileSubtitle =>
+      'Sign in to track your stats, join matches, and connect with other players.';
 }

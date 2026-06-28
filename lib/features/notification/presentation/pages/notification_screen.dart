@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import '../../../../l10n/generated/app_localizations.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../../core/utils/auth_interceptor.dart';
 
 class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final user = ref.watch(currentUserProvider);
 
     // Design Tokens from Stitch Notification Design
     final primaryColor = isDark
@@ -22,6 +27,100 @@ class NotificationScreen extends ConsumerWidget {
     final secondaryTextColor = isDark
         ? const Color(0xFFc1c9be)
         : Colors.black54;
+
+    if (user == null) {
+      return Scaffold(
+        backgroundColor: surfaceColor,
+        appBar: _buildAppBar(context, isDark, onSurfaceColor, primaryColor),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF1c1c1e) : const Color(0xFFeff1f2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Iconsax.notification_copy,
+                        size: 40,
+                        color: isDark ? Colors.white24 : Colors.black26,
+                      ),
+                      Positioned(
+                        right: 28,
+                        top: 28,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.lock,
+                            size: 10,
+                            color: isDark ? Colors.black : Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  l10n.notifications,
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.guestNotificationsSubtitle,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14,
+                    color: isDark ? Colors.white54 : Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      runWithAuth(context, ref, () {});
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      foregroundColor: isDark ? Colors.black : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      l10n.signInOrSignUp,
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: surfaceColor,
